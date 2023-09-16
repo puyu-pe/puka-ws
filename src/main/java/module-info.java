@@ -5,6 +5,7 @@ module pe.puyu {
   requires transitive javafx.base;
 
   opens pe.puyu.app to javafx.fxml, javafx.graphics;
+  opens pe.puyu.controller to javafx.fxml, javafx.graphics;
 
   requires json;
   requires socket.io.client;

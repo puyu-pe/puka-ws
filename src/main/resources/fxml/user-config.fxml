@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="388.0" styleClass="container" stylesheets="@../styles/theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="388.0" styleClass="container" stylesheets="@../styles/theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pe.puyu.controller.UserConfigController">
    <children>
       <GridPane VBox.vgrow="ALWAYS">
         <columnConstraints>
@@ -31,16 +31,16 @@
             <RowConstraints minHeight="10.0" percentHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView cache="true" cacheHint="QUALITY" fitHeight="133.0" fitWidth="158.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS" />
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="12.0" prefWidth="101.0" text="SELECCIONAR LOGO" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowIndex="2" />
+            <ImageView fx:id="imgViewLogo" cache="true" cacheHint="QUALITY" fitHeight="133.0" fitWidth="158.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS" />
+            <Button fx:id="btnSelectLogo" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSelectLogo" prefHeight="12.0" prefWidth="101.0" text="SELECCIONAR LOGO" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowIndex="2" />
             <Label text="RUC:" GridPane.rowIndex="3" />
-            <TextField GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" />
+            <TextField fx:id="txtRuc" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" />
             <Label text="Sucursal:" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets right="5.0" />
                </GridPane.margin>
             </Label>
-            <TextField GridPane.columnIndex="6" GridPane.rowIndex="3" />
+            <TextField fx:id="txtBranch" GridPane.columnIndex="6" GridPane.rowIndex="3" />
          </children>
       </GridPane>
       <GridPane prefHeight="0.0" prefWidth="369.0" VBox.vgrow="ALWAYS">
@@ -58,20 +58,20 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <CheckBox mnemonicParsing="false" styleClass="checkbox" text="Configuracion del servidor" GridPane.columnSpan="4" />
+            <CheckBox fx:id="checkBoxConfigServer" mnemonicParsing="false" styleClass="checkbox" text="Configuracion del servidor" GridPane.columnSpan="4" />
             <Label text="url-bifrost:" GridPane.columnSpan="2" GridPane.rowIndex="1" />
             <Label text="namespace:" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-            <TextField GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="2" />
+            <TextField fx:id="txtUrlBifrost" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="1" />
+            <TextField fx:id="txtNamespace" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <HBox alignment="CENTER" prefHeight="55.0" prefWidth="369.0" spacing="100.0">
          <children>
-            <Button cancelButton="true" mnemonicParsing="false" text="CANCELAR">
+            <Button fx:id="btnCancel" cancelButton="true" mnemonicParsing="false" onAction="#onCancel" text="CANCELAR">
                <padding>
                   <Insets left="10.0" right="10.0" />
                </padding></Button>
-            <Button defaultButton="true" mnemonicParsing="false" text="ACEPTAR">
+            <Button fx:id="btnAccept" defaultButton="true" mnemonicParsing="false" onAction="#onAccept" text="ACEPTAR">
                <padding>
                   <Insets left="10.0" right="10.0" />
                </padding></Button>
