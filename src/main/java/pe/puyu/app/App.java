@@ -1,21 +1,24 @@
 package pe.puyu.app;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.slf4j.LoggerFactory;
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import pe.puyu.service.BifrostService;
 
 public class App extends Application {
 
+  private static final Logger rootLogger = (Logger) LoggerFactory.getLogger("pe.puyu");
+  private static final Logger logger = (Logger) LoggerFactory.getLogger("pe.puyu.app");
+
   @Override
   public void init() {
-
+    rootLogger.setLevel(Level.TRACE);
   }
 
   @Override
@@ -24,8 +27,7 @@ public class App extends Application {
       BifrostService service = new BifrostService(new URI("http://localhost:3001/printing-20605931546-8"));
       service.start();
     } catch (URISyntaxException e) {
-      System.out
-          .println(String.format("URISyntaxException al iniciar BifrostService en metodo start: %s", e.getMessage()));
+      logger.error("Excepción al iniciar BifrostService: {}", e.getMessage(), e);
     }
     // try {
     // Parent root =

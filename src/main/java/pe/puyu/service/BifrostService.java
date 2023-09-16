@@ -6,12 +6,15 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.LoggerFactory;
 
+import ch.qos.logback.classic.Logger;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
-//TODO: Implementar logs
 public class BifrostService {
+  private static final Logger logger = (Logger) LoggerFactory.getLogger("pe.puyu.service");
+
   Socket socket;
   URI uriBifrost;
   int attempsConnection;
@@ -26,6 +29,7 @@ public class BifrostService {
 
   public void start() {
     socket.connect();
+    logger.info("Se inicia el servicio de bifrost");
   }
 
   private void startListiningEvents() {
@@ -41,85 +45,88 @@ public class BifrostService {
     try {
       var response = new BifrostResponse((JSONObject) args[0]);
       if (response.getStatus().equalsIgnoreCase("success")) {
-        System.out.println(response.getMessage());
+        logger.debug("Llego cola de impresión de bifrost con el siguiente mensaje: {}", response.getMessage());
         printItems(response.getData());
       }
     } catch (JSONException e) {
-      System.out.println(String.format("Excepción al obtener cola de impresión: %s", e.getMessage()));
+      logger.error("Excepción al obtener cola de impresión: {}", e.getMessage(), e);
     }
   }
 
   private void onEmitItem(Object... args) {
     try {
       var response = new BifrostResponse((JSONObject) args[0]);
-      System.out.println(response.getMessage());
+      logger.debug("Llego un item de bifrost para imprimir con el siguiente mensaje: {}", response.getMessage());
       printItems(response.getData());
     } catch (JSONException e) {
-      System.out.println(e.getMessage());
+      logger.error("Excepción al lanzar el evento para emitir un item emit-item: {}", e.getMessage(), e);
     }
   }
 
   private void onConnected(Object... args) {
     // TODO: Notify onConnectedSuccess
     attempsConnection = 0;
-    System.out.println(String.format("Se establecio conexión con: %s", uriBifrost));
+    logger.info("Se establecio conexión con {}", uriBifrost);
     requestToGetPrintingQueue();
   }
 
   private void onConnectedError(Object... args) {
     ++attempsConnection;
-    System.out.println(
-        String.format("Ocurrio un error en la conexión , reitento n° %d ..., excepcion: %s", attempsConnection,
-            args[0]));
+    logger.error("Ocurrio un error al intentar conectarse: {}, ...reintentando n° {}", args[0], attempsConnection);
   }
 
   private void onDisconnect(Object... args) {
-    System.out.println("El servicio ha sido desconectado");
+    var message = "";
+    if (args.length > 0)
+      message = args[0].toString();
+    logger.info("El servicio a sido desconectado: {}", message);
   }
 
   private void onSendNumberItemsQueue(Object... args) {
     int numberItemsQueue = (int) args[0];
     // TODO: Notify onChangeNumberItemsQueue
-    System.out.println(String.format("Se modifico el numero de elementos en cola: %d", numberItemsQueue));
+    logger.debug("Se actualizo el numero de elementos en cola: {}", numberItemsQueue);
   }
 
   private void emitPrintItem(String itemId) {
+    // NOTE: Considerar cambiar el nombre del evento printer:emit-item por
+    // printer:release-item
     try {
       JSONObject obj = new JSONObject();
       obj.put("key", itemId);
       socket.emit("printer:print-item", obj);
     } catch (JSONException e) {
-      System.out.println(String.format("JSONException al emitir un elemento para imprimir: %s", e.getMessage()));
+      logger.error("Ocurrio una excepción en emit printer:print-item: {}", e.getMessage(), e);
     }
   }
 
   public void requestToGetPrintingQueue() {
     socket.emit("printer:get-printing-queue");
+    logger.debug("Se solicita cola de impresión a bifrost");
   }
 
   public void requestToReleaseQueue() {
     socket.emit("printer:release-queue");
+    logger.debug("Se solicita liberar cola de impresión a bifrost");
   }
 
   public void printItems(Map<String, JSONObject> data) {
-    System.out.println(String.format("Se recibe %d elemento(s) para imprimir", data.size()));
+    logger.debug("Se recibe {} items de bifrost", data.size());
     for (Map.Entry<String, JSONObject> entry : data.entrySet()) {
-      var key = entry.getKey();
-      var value = entry.getValue();
+      var id = entry.getKey();
+      var item = entry.getValue();
       try {
-        if (!value.has("tickets")) {
-          throw new Exception(String.format("La propiedad tickets no existe para el itemId %d", key));
+        if (!item.has("tickets")) {
+          throw new Exception(String.format("La propiedad tickets no existe para el itemId %d", id));
         }
-        var tickets = new JSONArray(value.getString("tickets"));
+        var tickets = new JSONArray(item.getString("tickets"));
         for (int i = 0; i < tickets.length(); ++i) {
           var ticket = tickets.get(i);
-          System.out.println(ticket);
-          emitPrintItem(key);
+          logger.trace("Se imprimira el siguiente ticket con id {}: {}", id, ticket);
+          emitPrintItem(id);
         }
-      } catch (JSONException e) {
-        System.out.println(String.format("JSONException al imprimir un ticket: %s", e.getMessage()));
       } catch (Exception e) {
-        System.out.println(String.format("Exception al imprimir un ticket: %s", e.getMessage()));
+        logger.error("Excepción intentar imprimir un ticket con id {}: {}", id, e.getMessage(), e);
       }
     }
   }
