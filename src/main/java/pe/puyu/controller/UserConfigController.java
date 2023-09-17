@@ -41,7 +41,7 @@ public class UserConfigController implements Initializable {
         BifrostService bifrostService = new BifrostService(new URI("http://localhost:3001/printing-12345678910-8"));
         bifrostService.start();
       } catch (URISyntaxException e) {
-      } 
+      }
     } else {
       PukaAlerts.showWarning("Configuración invalida detectada.", String.join("\n", errors));
     }
@@ -49,7 +49,10 @@ public class UserConfigController implements Initializable {
 
   @FXML
   void onCancel(ActionEvent event) {
-    System.exit(0);
+    boolean result = PukaAlerts.showConfirmation("¿Seguro que deseas cancelar la configuración?",
+        "No se guardara la configuración y no se iniciara el servicio de bifrost");
+    if (result)
+      System.exit(0);
   }
 
   @FXML
