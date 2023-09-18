@@ -1,7 +1,5 @@
 package pe.puyu.controller;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +14,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import pe.puyu.service.BifrostService;
+import pe.puyu.service.BifrostServiceLauncher;
 import pe.puyu.util.PukaAlerts;
 import pe.puyu.validations.BifrostValidator;
 
@@ -31,17 +29,17 @@ public class UserConfigController implements Initializable {
   @FXML
   void onAccept(ActionEvent event) {
     List<String> errors = new LinkedList<>();
-    errors.addAll(BifrostValidator.validateUrlBifrost(txtUrlBifrost.getText()));
-    errors.addAll(BifrostValidator.validateRuc(txtRuc.getText()));
-    errors.addAll(BifrostValidator.validateBranch(txtBranch.getText()));
-    errors.addAll(BifrostValidator.validateNamespace(txtNamespace.getText()));
+    var urlBifrost = txtUrlBifrost.getText().trim();
+    var namespace = txtNamespace.getText().trim();
+    var ruc = txtRuc.getText().trim();
+    var branch = txtBranch.getText().trim();
+    errors.addAll(BifrostValidator.validateUrlBifrost(urlBifrost));
+    errors.addAll(BifrostValidator.validateNamespace(namespace));
+    errors.addAll(BifrostValidator.validateRuc(ruc));
+    errors.addAll(BifrostValidator.validateBranch(branch));
     if (errors.isEmpty()) {
-      try {
-        closeWindow(event);
-        BifrostService bifrostService = new BifrostService(new URI("http://localhost:3001/printing-12345678910-8"));
-        bifrostService.start();
-      } catch (URISyntaxException e) {
-      }
+      closeWindow(event);
+      new BifrostServiceLauncher(urlBifrost, namespace, ruc, branch).tryStart();
     } else {
       PukaAlerts.showWarning("Configuración invalida detectada.", String.join("\n", errors));
     }

@@ -61,10 +61,10 @@ public class BifrostValidator {
   public static List<String> validateBranch(String branch) {
     List<String> errors = new LinkedList<>();
     branch = branch.trim();
-    var branchPattern = Pattern.compile("^\\d?$", Pattern.MULTILINE);
+    var branchPattern = Pattern.compile("^\\d$", Pattern.MULTILINE);
     var branchMatcher = branchPattern.matcher(branch);
     boolean isValidBranch = branchMatcher.matches();
-    if(!isValidBranch){
+    if (!branch.isEmpty() && !isValidBranch) {
       errors.add("El número de sucursal solo debe contener un digito numerico");
     }
     return errors;
