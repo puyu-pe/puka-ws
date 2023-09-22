@@ -15,5 +15,8 @@ module pe.puyu {
   requires ch.qos.logback.classic;
   requires org.slf4j;
 
+  requires java.desktop;
+  requires transitive com.dustinredmond.fxtrayicon;  
+
   exports pe.puyu.app;
 }

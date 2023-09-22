@@ -3,6 +3,7 @@ package pe.puyu.controller;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -14,7 +15,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import pe.puyu.service.BifrostServiceLauncher;
+import pe.puyu.service.bifrost.BifrostService;
+import pe.puyu.service.bifrost.BifrostServiceLauncher;
+import pe.puyu.service.trayicon.PrintServiceTrayIcon;
 import pe.puyu.util.PukaAlerts;
 import pe.puyu.validations.BifrostValidator;
 
@@ -39,7 +42,10 @@ public class UserConfigController implements Initializable {
     errors.addAll(BifrostValidator.validateBranch(branch));
     if (errors.isEmpty()) {
       closeWindow(event);
-      new BifrostServiceLauncher(urlBifrost, namespace, ruc, branch).tryStart();
+      Optional<BifrostService> serviceOpt = new BifrostServiceLauncher(urlBifrost, namespace, ruc, branch).tryStart();
+      if (serviceOpt.isPresent()) {
+        new PrintServiceTrayIcon(getStageFromEvent(event), serviceOpt.get()).show();
+      }
     } else {
       PukaAlerts.showWarning("Configuración invalida detectada.", String.join("\n", errors));
     }
@@ -59,9 +65,13 @@ public class UserConfigController implements Initializable {
   }
 
   private void closeWindow(ActionEvent event) {
+    getStageFromEvent(event).close();
+  }
+
+  private Stage getStageFromEvent(ActionEvent event) {
     Node source = (Node) event.getSource();
     Stage stage = (Stage) source.getScene().getWindow();
-    stage.close();
+    return stage;
   }
 
   @FXML

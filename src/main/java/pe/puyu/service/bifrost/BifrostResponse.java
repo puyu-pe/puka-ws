@@ -1,4 +1,4 @@
-package pe.puyu.service;
+package pe.puyu.service.bifrost;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

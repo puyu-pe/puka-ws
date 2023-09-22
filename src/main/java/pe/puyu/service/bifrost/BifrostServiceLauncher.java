@@ -1,6 +1,7 @@
-package pe.puyu.service;
+package pe.puyu.service.bifrost;
 
 import java.net.URI;
+import java.util.Optional;
 
 import org.slf4j.LoggerFactory;
 
@@ -22,12 +23,14 @@ public class BifrostServiceLauncher {
     return uri;
   }
 
-  public void tryStart() {
+  public Optional<BifrostService> tryStart() {
     try {
       var bifrostService = new BifrostService(new URI(uriStr));
       bifrostService.start();
+      return Optional.ofNullable(bifrostService);
     } catch (Exception e) {
       logger.error("Excepción al lanzar el servicio de bifrost: {}", e.getMessage(), e);
+      return Optional.empty();
     }
   }
 }

@@ -1,7 +1,10 @@
-package pe.puyu.service;
+package pe.puyu.service.bifrost;
 
 import java.net.URI;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,17 +22,24 @@ public class BifrostService {
   URI uriBifrost;
   int attempsConnection;
 
+  private List<Consumer<Integer>> updateItemsQueueListeners;
+
   public BifrostService(URI uri) {
     IO.Options options = IO.Options.builder().build();
     uriBifrost = uri;
     attempsConnection = 0;
     socket = IO.socket(uri, options);
+    updateItemsQueueListeners = new LinkedList<>();
     startListiningEvents();
   }
 
   public void start() {
     socket.connect();
     logger.info("Se inicia el servicio de bifrost");
+  }
+
+  public void addUpdateItemsQueueListener(Consumer<Integer> callback) {
+    this.updateItemsQueueListeners.add(callback);
   }
 
   private void startListiningEvents() {
@@ -84,7 +94,9 @@ public class BifrostService {
 
   private void onSendNumberItemsQueue(Object... args) {
     int numberItemsQueue = (int) args[0];
-    // TODO: Notify onChangeNumberItemsQueue
+    for(var listener : updateItemsQueueListeners){
+      listener.accept(numberItemsQueue);
+    }
     logger.debug("Se actualizo el numero de elementos en cola: {}", numberItemsQueue);
   }
 
