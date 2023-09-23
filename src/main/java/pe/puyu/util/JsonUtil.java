@@ -27,10 +27,10 @@ public class JsonUtil {
   }
 
   public static <T> Optional<T> convertFromJson(String jsonFileDir, Class<T> objectClass) {
-    Gson gson = new Gson();
+    Gson gson = FxGson.create();
     try {
       String jsonFromFile = new String(Files.readAllBytes(Paths.get(jsonFileDir)));
-      return Optional.of(gson.fromJson(jsonFromFile, objectClass));
+      return Optional.ofNullable(gson.fromJson(jsonFromFile, objectClass));
     } catch (IOException e) {
       logger.error("Excepción al convertir un objeto a json: {}", e.getMessage(), e);
       return Optional.empty();

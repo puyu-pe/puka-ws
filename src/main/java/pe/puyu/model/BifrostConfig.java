@@ -11,6 +11,13 @@ public class BifrostConfig {
     branch = new SimpleStringProperty();
   }
 
+  public void copyFrom(BifrostConfig bifrostConfig) {
+    urlBifrost.set(bifrostConfig.getUrlBifrost());
+    namespace.set(bifrostConfig.getNamespace());
+    ruc.set(bifrostConfig.getRuc());
+    branch.set(bifrostConfig.getBranch());
+  }
+
   public String getUrlBifrost() {
     return urlBifrost.get();
   }
@@ -43,19 +50,19 @@ public class BifrostConfig {
     this.branch.set(branch.trim());
   }
 
-  public SimpleStringProperty urlBifrostProperty(){
+  public SimpleStringProperty urlBifrostProperty() {
     return urlBifrost;
   }
 
-  public SimpleStringProperty rucProperty(){
+  public SimpleStringProperty rucProperty() {
     return ruc;
   }
 
-  public SimpleStringProperty namespaceProperty(){
+  public SimpleStringProperty namespaceProperty() {
     return namespace;
   }
 
-  public SimpleStringProperty branchProperty(){
+  public SimpleStringProperty branchProperty() {
     return branch;
   }
 

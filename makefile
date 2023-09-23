@@ -5,4 +5,3 @@ run:
 
 log:
 	cat /tmp/puyu/puka.log
-
