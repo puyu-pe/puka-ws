@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.slf4j.LoggerFactory;
 
-
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import javafx.application.Application;
