@@ -18,5 +18,12 @@ module pe.puyu {
   requires java.desktop;
   requires transitive com.dustinredmond.fxtrayicon;  
 
+  requires com.google.gson;
+  requires org.hildan.fxgson;
+  opens pe.puyu.model to com.google.gson, org.hildan.fxgson;
+
+
+  requires net.harawata.appdirs;
+
   exports pe.puyu.app;
 }

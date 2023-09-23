@@ -16,7 +16,7 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 
 public class BifrostService {
-  private final Logger logger = (Logger) LoggerFactory.getLogger("pe.puyu.service");
+  private final Logger logger = (Logger) LoggerFactory.getLogger("pe.puyu.service.bifrost");
 
   Socket socket;
   URI uriBifrost;
