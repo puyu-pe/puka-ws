@@ -21,8 +21,8 @@ public class JsonUtil {
     try (FileWriter writer = new FileWriter(jsonFileDir)) {
       String jsonSource = gson.toJson(beanSource);
       writer.write(jsonSource);
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (Exception e) {
+      logger.error("Excepción al guardar un json: {}", e.getMessage(), e);
     }
   }
 
@@ -31,7 +31,7 @@ public class JsonUtil {
     try {
       String jsonFromFile = new String(Files.readAllBytes(Paths.get(jsonFileDir)));
       return Optional.ofNullable(gson.fromJson(jsonFromFile, objectClass));
-    } catch (IOException e) {
+    } catch (Exception e) {
       logger.error("Excepción al convertir un objeto a json: {}", e.getMessage(), e);
       return Optional.empty();
     }
