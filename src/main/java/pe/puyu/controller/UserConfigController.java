@@ -95,6 +95,14 @@ public class UserConfigController implements Initializable {
   }
 
   @FXML
+  void onClickCheckboxConfigServer(ActionEvent event) {
+    txtUrlBifrost.setEditable(checkBoxConfigServer.isSelected());
+    txtUrlBifrost.setDisable(checkBoxConfigServer.isSelected());
+    txtNamespace.setEditable(checkBoxConfigServer.isSelected());
+    txtNamespace.setDisable(checkBoxConfigServer.isSelected());
+  }
+
+  @FXML
   void onMouseEnteredWindow(MouseEvent event) {
     recoverUserConfig();
   }
