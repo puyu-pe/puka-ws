@@ -90,7 +90,8 @@ public class UserConfigController implements Initializable {
         persistUserLogoPath(selectFile.get());
         imgViewLogo.setImage(new Image(imgUrl));
       }
-    } catch (MalformedURLException e) {
+    } catch (Exception e) {
+      logger.error("Excepción al selecionar el logo: {}", e.getMessage(), e);
     }
   }
 

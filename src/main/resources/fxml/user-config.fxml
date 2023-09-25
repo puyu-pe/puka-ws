@@ -76,7 +76,7 @@
                <padding>
                   <Insets left="10.0" right="10.0" />
                </padding></Button>
-            <Button fx:id="btnAccept" defaultButton="true" mnemonicParsing="false" onAction="#onAccept" text="ACEPTAR">
+            <Button fx:id="btnAccept" mnemonicParsing="false" onAction="#onAccept" text="ACEPTAR">
                <padding>
                   <Insets left="10.0" right="10.0" />
                </padding></Button>
