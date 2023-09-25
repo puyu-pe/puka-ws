@@ -26,17 +26,17 @@ public class PrintServiceTrayIcon {
         .build();
   }
 
-  public void onUpdateNumberItemsQueue(int numberItemsQueue) {
-    releaseQueueMenuItem.setText("liberar cola de impresión: " + numberItemsQueue);
-  }
-
-  public void onClickReleaseQueue(ActionEvent e) {
-    bifrostService.requestToReleaseQueue();
-  }
-
   public void show() {
     trayIcon.show();
     logger.trace("El trayicon se hace visible");
+  }
+
+  private void onUpdateNumberItemsQueue(int numberItemsQueue) {
+    releaseQueueMenuItem.setText("liberar cola de impresión: " + numberItemsQueue);
+  }
+
+  private void onClickReleaseQueue(ActionEvent e) {
+    bifrostService.requestToReleaseQueue();
   }
 
 }
