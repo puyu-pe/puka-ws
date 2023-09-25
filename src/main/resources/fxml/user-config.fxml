@@ -32,7 +32,7 @@
             <RowConstraints minHeight="10.0" percentHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="btnSelectLogo" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSelectLogo" prefHeight="12.0" prefWidth="101.0" text="SELECCIONAR LOGO" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowIndex="3" />
+            <Button fx:id="btnSelectLogo" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSelectLogo" prefHeight="12.0" prefWidth="101.0" text="SELECCIONAR LOGO" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowIndex="3" />
             <Label text="RUC:" GridPane.rowIndex="4" />
             <TextField fx:id="txtRuc" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4" />
             <Label text="Sucursal:" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
@@ -76,7 +76,7 @@
                <padding>
                   <Insets left="10.0" right="10.0" />
                </padding></Button>
-            <Button fx:id="btnAccept" mnemonicParsing="false" onAction="#onAccept" text="ACEPTAR">
+            <Button fx:id="btnAccept" defaultButton="true" mnemonicParsing="false" onAction="#onAccept" text="ACEPTAR">
                <padding>
                   <Insets left="10.0" right="10.0" />
                </padding></Button>
