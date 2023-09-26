@@ -55,20 +55,24 @@ public class UserConfigController implements Initializable {
 
   @FXML
   void onAccept(ActionEvent event) {
-    List<String> errors = new LinkedList<>();
-    errors.addAll(BifrostValidator.validateUrlBifrost(bifrostConfig.getUrlBifrost()));
-    errors.addAll(BifrostValidator.validateNamespace(bifrostConfig.getNamespace()));
-    errors.addAll(BifrostValidator.validateRuc(bifrostConfig.getRuc()));
-    errors.addAll(BifrostValidator.validateBranch(bifrostConfig.getBranch()));
-    if (errors.isEmpty()) {
-      getStage().close();
-      persistBifrostConfig();
-      Optional<BifrostService> service = new BifrostServiceLauncher(bifrostConfig).tryStart();
-      if (service.isPresent()) {
-        new PrintServiceTrayIcon(getStage(), service.get()).show();
+    try {
+      List<String> errors = new LinkedList<>();
+      errors.addAll(BifrostValidator.validateUrlBifrost(bifrostConfig.getUrlBifrost()));
+      errors.addAll(BifrostValidator.validateNamespace(bifrostConfig.getNamespace()));
+      errors.addAll(BifrostValidator.validateRuc(bifrostConfig.getRuc()));
+      errors.addAll(BifrostValidator.validateBranch(bifrostConfig.getBranch()));
+      if (errors.isEmpty()) {
+        getStage().close();
+        persistBifrostConfig();
+        Optional<BifrostService> service = new BifrostServiceLauncher(bifrostConfig).tryStart();
+        if (service.isPresent()) {
+          new PrintServiceTrayIcon(service.get()).show();
+        }
+      } else {
+        PukaAlerts.showWarning("Configuración invalida detectada.", String.join("\n", errors));
       }
-    } else {
-      PukaAlerts.showWarning("Configuración invalida detectada.", String.join("\n", errors));
+    } catch (Exception e) {
+      logger.error("Excepción fatal al aceptar los cambios formulario de configuración: {}", e.getMessage(), e);
     }
   }
 
@@ -96,10 +100,8 @@ public class UserConfigController implements Initializable {
 
   @FXML
   void onClickCheckboxConfigServer(ActionEvent event) {
-    txtUrlBifrost.setEditable(checkBoxConfigServer.isSelected());
-    txtUrlBifrost.setDisable(checkBoxConfigServer.isSelected());
-    txtNamespace.setEditable(checkBoxConfigServer.isSelected());
-    txtNamespace.setDisable(checkBoxConfigServer.isSelected());
+    txtUrlBifrost.setDisable(!checkBoxConfigServer.isSelected());
+    txtNamespace.setDisable(!checkBoxConfigServer.isSelected());
   }
 
   @FXML

@@ -1,11 +1,12 @@
 package pe.puyu.service.trayicon;
 
-import org.slf4j.LoggerFactory;
 
 import com.dustinredmond.fxtrayicon.FXTrayIcon;
 
-import ch.qos.logback.classic.Logger;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import pe.puyu.service.bifrost.BifrostService;
@@ -14,21 +15,19 @@ public class PrintServiceTrayIcon {
   private FXTrayIcon trayIcon;
   private BifrostService bifrostService;
   private MenuItem releaseQueueMenuItem;
-  private static final Logger logger = (Logger) LoggerFactory.getLogger("pe.puyu.service.trayicon");
+  private Stage parentStage;
 
-  public PrintServiceTrayIcon(Stage stage, BifrostService bifrostService) {
+  public PrintServiceTrayIcon(BifrostService bifrostService) throws Exception {
     this.bifrostService = bifrostService;
     this.releaseQueueMenuItem = new MenuItem("liberar cola de impresión: 0");
     this.releaseQueueMenuItem.setOnAction(this::onClickReleaseQueue);
     this.bifrostService.addUpdateItemsQueueListener(this::onUpdateNumberItemsQueue);
-    trayIcon = new FXTrayIcon.Builder(stage, getClass().getResource("/assets/icon.png"))
-        .menuItem(releaseQueueMenuItem)
-        .build();
+    loadStage();
+    loadTrayIcon();
   }
 
   public void show() {
     trayIcon.show();
-    logger.trace("El trayicon se hace visible");
   }
 
   private void onUpdateNumberItemsQueue(int numberItemsQueue) {
@@ -37,6 +36,20 @@ public class PrintServiceTrayIcon {
 
   private void onClickReleaseQueue(ActionEvent e) {
     bifrostService.requestToReleaseQueue();
+  }
+
+  private void loadStage() throws Exception {
+    this.parentStage = new Stage();
+    Parent root = FXMLLoader.load(getClass().getResource("/fxml/actions-panel.fxml"));
+    Scene scene = new Scene(root);
+    parentStage.setScene(scene);
+    parentStage.setTitle("Panel de acciones de puka");
+  }
+
+  private void loadTrayIcon(){
+    trayIcon = new FXTrayIcon.Builder(parentStage, getClass().getResource("/assets/icon.png"))
+        .menuItem(releaseQueueMenuItem)
+        .build();
   }
 
 }

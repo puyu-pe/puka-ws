@@ -66,8 +66,8 @@
             <CheckBox fx:id="checkBoxConfigServer" mnemonicParsing="false" onAction="#onClickCheckboxConfigServer" styleClass="checkbox" text="Configuracion del servidor" GridPane.columnSpan="4" />
             <Label text="url-bifrost:" GridPane.columnSpan="2" GridPane.rowIndex="1" />
             <Label text="namespace:" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-            <TextField fx:id="txtUrlBifrost" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="1" />
-            <TextField fx:id="txtNamespace" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="2" />
+            <TextField fx:id="txtUrlBifrost" disable="true" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="1" />
+            <TextField fx:id="txtNamespace" disable="true" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <HBox alignment="CENTER" prefHeight="55.0" prefWidth="369.0" spacing="100.0">

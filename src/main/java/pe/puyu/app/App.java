@@ -47,10 +47,10 @@ public class App extends Application {
       } else {
         var service = new BifrostServiceLauncher(bifrostConfig.get()).tryStart();
         if (service.isPresent()) {
-          new PrintServiceTrayIcon(stage, service.get()).show();
+          new PrintServiceTrayIcon(service.get()).show();
         }
       }
-    } catch (IOException e) {
+    } catch (Exception e) {
       rootLogger.error("Excepción al iniciar puka: {}", e.getMessage(), e);
     }
   }
