@@ -139,16 +139,14 @@ public class BifrostService {
           var ticket = tickets.getJSONObject(i);
           logger.trace("Se imprimira el siguiente ticket con id {}: {}", id, ticket);
           CompletableFuture.runAsync(() -> {
-            try {
-              new SweetTicketPrinter(ticket).printTicket();
-              emitPrintItem(id);
-            } catch (Exception e) {
-              logger.error("Excepción intentar imprimir un ticket con id {}: {}", id, e.getMessage(), e);
-            }
+            new SweetTicketPrinter(ticket)
+                .setOnSuccess(() -> emitPrintItem(id))
+                .setOnError(error -> logger.error("No se pudo imprimir el ticket con id {}, error: {}", id, error))
+                .printTicket();
           });
         }
       } catch (Exception e) {
-        logger.error("Excepción intentar imprimir un ticket con id {}: {}", id, e.getMessage(), e);
+        logger.error("Excepción intentar imprimir ticket con id {}: {}", id, e.getMessage(), e);
       }
     }
   }
