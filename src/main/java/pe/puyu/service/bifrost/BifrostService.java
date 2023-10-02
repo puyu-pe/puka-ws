@@ -14,6 +14,9 @@ import org.slf4j.LoggerFactory;
 import ch.qos.logback.classic.Logger;
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import pe.puyu.util.SweetTicketPrinter;
+
+import java.util.concurrent.CompletableFuture;
 
 public class BifrostService {
   private final Logger logger = (Logger) LoggerFactory.getLogger("pe.puyu.service.bifrost");
@@ -94,7 +97,7 @@ public class BifrostService {
 
   private void onSendNumberItemsQueue(Object... args) {
     int numberItemsQueue = (int) args[0];
-    for(var listener : updateItemsQueueListeners){
+    for (var listener : updateItemsQueueListeners) {
       listener.accept(numberItemsQueue);
     }
     logger.debug("Se actualizo el numero de elementos en cola: {}", numberItemsQueue);
@@ -122,9 +125,9 @@ public class BifrostService {
     logger.debug("Se solicita liberar cola de impresión a bifrost");
   }
 
-  public void printItems(Map<String, JSONObject> data) {
-    logger.debug("Se recibe {} items de bifrost", data.size());
-    for (Map.Entry<String, JSONObject> entry : data.entrySet()) {
+  public void printItems(Map<String, JSONObject> queue) {
+    logger.debug("Se recibe {} items de bifrost", queue.size());
+    for (Map.Entry<String, JSONObject> entry : queue.entrySet()) {
       var id = entry.getKey();
       var item = entry.getValue();
       try {
@@ -133,9 +136,16 @@ public class BifrostService {
         }
         var tickets = new JSONArray(item.getString("tickets"));
         for (int i = 0; i < tickets.length(); ++i) {
-          var ticket = tickets.get(i);
+          var ticket = tickets.getJSONObject(i);
           logger.trace("Se imprimira el siguiente ticket con id {}: {}", id, ticket);
-          emitPrintItem(id);
+          CompletableFuture.runAsync(() -> {
+            try {
+              new SweetTicketPrinter(ticket).printTicket();
+              emitPrintItem(id);
+            } catch (Exception e) {
+              logger.error("Excepción intentar imprimir un ticket con id {}: {}", id, e.getMessage(), e);
+            }
+          });
         }
       } catch (Exception e) {
         logger.error("Excepción intentar imprimir un ticket con id {}: {}", id, e.getMessage(), e);

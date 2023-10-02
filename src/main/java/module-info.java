@@ -1,4 +1,4 @@
-module pe.puyu {
+module pe.puyu.puka {
   requires transitive javafx.graphics;
   requires javafx.controls;
   requires javafx.fxml;
@@ -7,7 +7,7 @@ module pe.puyu {
   opens pe.puyu.app to javafx.fxml, javafx.graphics;
   opens pe.puyu.controller to javafx.fxml, javafx.graphics;
 
-  requires json;
+  requires org.json;
   requires socket.io.client;
   requires transitive engine.io.client;
   
@@ -24,6 +24,10 @@ module pe.puyu {
 
 
   requires net.harawata.appdirs;
+
+  //JTicketDesing
+  requires pe.puyu.jticketdesing;
+  requires escpos.coffee;
 
   exports pe.puyu.app;
 }
