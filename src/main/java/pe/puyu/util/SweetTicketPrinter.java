@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 
 import org.json.JSONObject;
 
+import com.github.anastaciocintra.output.PrinterOutputStream;
 import com.github.anastaciocintra.output.TcpIpOutputStream;
 
 import pe.puyu.jticketdesing.core.SweetTicketDesing;
@@ -19,7 +20,7 @@ public class SweetTicketPrinter {
   private JSONObject data = new JSONObject();
   private JSONObject metadata = new JSONObject();
 
-  public SweetTicketPrinter(JSONObject data){
+  public SweetTicketPrinter(JSONObject data) {
     this.data = data;
     this.ticket = data.getJSONObject("data");
     this.printerInfo = data.getJSONObject("printer");
@@ -66,13 +67,17 @@ public class SweetTicketPrinter {
     var name_system = this.printerInfo.getString("name_system");
     var port = this.printerInfo.getInt("port");
     switch (typeConnection) {
+      case "windows-usb":
+      case "samba":
+      case "serial":
+      case "cups":
+        var printService = PrinterOutputStream.getPrintServiceByName(name_system);
+        var printerOutputStream = new PrinterOutputStream(printService);
+        printerOutputStream.setUncaughtException(this::uncaughtException);
+        return printerOutputStream;
       case "ethernet":
-        Thread.UncaughtExceptionHandler uncaughtException = (Thread t, Throwable e) -> {
-          // onError.accept((Exception) e);
-          onError.accept(makeErrorMessageForException((Exception) e));
-        };
         var tcpIpOutputStream = new TcpIpOutputStream(name_system, port);
-        tcpIpOutputStream.setUncaughtException(uncaughtException);
+        tcpIpOutputStream.setUncaughtException(this::uncaughtException);
         return tcpIpOutputStream;
       default:
         throw new Exception(String.format("Tipo de conexión: %s, no soportado", typeConnection));
@@ -83,5 +88,9 @@ public class SweetTicketPrinter {
     return String.format("Error al imprimir un ticket, name_system: %s, port: %d, type: %s, mensaje error: %s",
         printerInfo.getString("name_system"), printerInfo.getInt("port"), printerInfo.getString("type"),
         e.getMessage());
+  }
+
+  private void uncaughtException(Thread t, Throwable e) {
+    onError.accept(makeErrorMessageForException((Exception) e));
   }
 }
