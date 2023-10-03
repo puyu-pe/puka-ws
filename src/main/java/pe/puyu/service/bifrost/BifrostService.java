@@ -125,6 +125,11 @@ public class BifrostService {
     logger.debug("Se solicita liberar cola de impresión a bifrost");
   }
 
+  public void requestItemsQueue() {
+    socket.emit("printer:request-items-queue");
+    logger.debug("Se solicita items en cola");
+  }
+
   public void printItems(Map<String, JSONObject> queue) {
     logger.debug("Se recibe {} items de bifrost", queue.size());
     for (Map.Entry<String, JSONObject> entry : queue.entrySet()) {

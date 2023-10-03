@@ -1,6 +1,5 @@
 package pe.puyu.service.trayicon;
 
-
 import com.dustinredmond.fxtrayicon.FXTrayIcon;
 
 import javafx.event.ActionEvent;
@@ -9,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
+import pe.puyu.controller.ActionPanelController;
 import pe.puyu.service.bifrost.BifrostService;
 
 public class PrintServiceTrayIcon {
@@ -40,13 +40,16 @@ public class PrintServiceTrayIcon {
 
   private void loadStage() throws Exception {
     this.parentStage = new Stage();
-    Parent root = FXMLLoader.load(getClass().getResource("/fxml/actions-panel.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/actions-panel.fxml"));
+    Parent root = loader.load();
+    ActionPanelController controller = loader.getController();
+    controller.initBifrostService(this.bifrostService);
     Scene scene = new Scene(root);
     parentStage.setScene(scene);
     parentStage.setTitle("Panel de acciones de puka");
   }
 
-  private void loadTrayIcon(){
+  private void loadTrayIcon() {
     trayIcon = new FXTrayIcon.Builder(parentStage, getClass().getResource("/assets/icon.png"))
         .menuItem(releaseQueueMenuItem)
         .build();

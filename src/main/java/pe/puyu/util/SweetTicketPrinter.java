@@ -34,7 +34,7 @@ public class SweetTicketPrinter {
       var outputStream = getOutputStreamByPrinterType();
       outputStream.write(new SweetTicketDesing(ticket, metadata).getBytes());
       outputStream.close();
-      onSuccess.run();
+      // onSuccess.run();
     } catch (Exception e) {
       onError.accept(makeErrorMessageForException(e));
     }
