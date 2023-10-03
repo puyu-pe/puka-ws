@@ -30,8 +30,8 @@
                <content>
                   <GridPane>
                      <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="477.4140434983169" minWidth="10.0" prefWidth="476.4166069748794" />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="349.7503472092544" minWidth="10.0" prefWidth="235.05259330300441" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
@@ -39,12 +39,12 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                      </rowConstraints>
                      <children>
-                        <Label text="Elementos en cola de impresion: ">
+                        <Label text="Numero de tickets que no se imprimieron:">
                            <font>
                               <Font name="System Bold" size="21.0" />
                            </font>
                         </Label>
-                        <Button fx:id="btnReprint" alignment="CENTER" contentDisplay="TEXT_ONLY" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onReprint" prefHeight="54.0" prefWidth="247.0" style="-fx-font-size: 24;" text="RE-IMPRIMIR" textAlignment="CENTER" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                        <Button fx:id="btnReprint" alignment="CENTER" contentDisplay="TEXT_ONLY" mnemonicParsing="false" onAction="#onReprint" prefHeight="54.0" prefWidth="247.0" style="-fx-font-size: 24; -fx-text-fill: black;" text="RE-IMPRIMIR" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                            <padding>
                               <Insets bottom="15.0" left="30.0" right="30.0" top="15.0" />
                            </padding>
@@ -52,13 +52,18 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                            <GridPane.margin>
-                              <Insets left="150.0" right="150.0" />
+                              <Insets />
                            </GridPane.margin></Button>
                         <Label fx:id="lblNumberItemsQueue" text="0" GridPane.columnIndex="1">
                            <font>
                               <Font name="System Bold" size="39.0" />
                            </font>
                         </Label>
+                        <Button fx:id="btnRelease" mnemonicParsing="false" onAction="#onReleaseQueue" style="-fx-font-size: 24; -fx-text-fill: black;" styleClass="btn-danger" text="LIBERAR" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                           <padding>
+                              <Insets bottom="15.0" left="30.0" right="30.0" top="15.0" />
+                           </padding>
+                        </Button>
                      </children>
                   </GridPane>
                </content>
@@ -134,10 +139,13 @@
             </Label>
          </children>
       </HBox>
-      <Button cancelButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Minimizar" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
+      <Button cancelButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-text-fill: black;" text="OCULTAR" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets left="50.0" right="50.0" />
          </GridPane.margin>
+         <padding>
+            <Insets bottom="10.0" top="10.0" />
+         </padding>
       </Button>
    </children>
    <padding>

@@ -115,6 +115,11 @@
     derive(button-secondary-color, -10%);
 }
 
+.btn-danger{
+  -fx-background-insets: 0px, 2px;
+  -fx-background-color: rgb(255,0,0),rgb(245,92,81)
+}
+
 .label {
   -fx-text-fill: primary-text;
 }
