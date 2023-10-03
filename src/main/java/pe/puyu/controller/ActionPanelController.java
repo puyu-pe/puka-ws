@@ -16,6 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import pe.puyu.service.bifrost.BifrostService;
 import pe.puyu.util.PukaAlerts;
+import pe.puyu.util.PukaUtil;
 
 public class ActionPanelController implements Initializable {
   private static final Logger logger = (Logger) LoggerFactory.getLogger("pe.puyu.controller.actionPanel");
@@ -35,13 +36,14 @@ public class ActionPanelController implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    lblVersion.setText(PukaUtil.getPukaVersion());
   }
 
   @FXML
   void onReprint(ActionEvent event) {
     try {
       boolean result = PukaAlerts.showConfirmation("¿Seguro que deseas reemprimir estos tickets?",
-          "Esta accion no es reversible");
+          "");
       if (result) {
         bifrostService.requestToGetPrintingQueue();
       }
@@ -63,9 +65,16 @@ public class ActionPanelController implements Initializable {
     }
   }
 
+  @FXML
+  void onHideWindow(ActionEvent event) {
+    this.getStage().hide();
+  }
+
   private void onUpdateNumberItemsQueue(int numberItemsQueue) {
     Platform.runLater(() -> {
       lblNumberItemsQueue.setText("" + numberItemsQueue);
+      btnReprint.setDisable(numberItemsQueue == 0);
+      btnRelease.setDisable(numberItemsQueue == 0);
     });
   }
 
@@ -85,4 +94,9 @@ public class ActionPanelController implements Initializable {
   @FXML
   private Button btnRelease;
 
+  @FXML
+  private Button btnHide;
+
+  @FXML
+  private Label lblVersion;
 }

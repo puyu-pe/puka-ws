@@ -1,6 +1,8 @@
 package pe.puyu.util;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
@@ -32,10 +34,21 @@ public class PukaUtil {
 
   public static String getConfigFileDir(String jsonFileName) throws IOException {
     File file = new File(Path.of(getUserDataDir(), jsonFileName).toString());
-    if(!file.exists()){
+    if (!file.exists()) {
       file.createNewFile();
     }
     return file.getAbsolutePath();
+  }
+
+  public static String getPukaVersion() {
+    try {
+      BufferedReader reader = new BufferedReader(new FileReader("./VERSION"));
+      String version = reader.readLine();
+      reader.close();
+      return version;
+    } catch (IOException e) {
+      return "0.1.0";
+    }
   }
 
   public static Optional<File> showPngFileChooser(Stage parent) {
