@@ -1,3 +1,7 @@
+#editores de codigo 
+.vscode
+.idea
+
 # Maven build directory
 target/
 
