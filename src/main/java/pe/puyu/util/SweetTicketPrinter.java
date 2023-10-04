@@ -49,6 +49,7 @@ public class SweetTicketPrinter {
   }
 
   public SweetTicketPrinter(JSONObject data) {
+		this.data = data;
     this.ticket = data.getJSONObject("data");
     this.printerInfo = data.getJSONObject("printer");
     this.onSuccess = () -> System.out.println("on success not implemented: SweetTicketPrinter");
@@ -61,7 +62,7 @@ public class SweetTicketPrinter {
       var outputStream = getOutputStreamByPrinterType();
       outputStream.write(new SweetTicketDesing(ticket, metadata).getBytes());
       outputStream.close();
-      // onSuccess.run();
+      onSuccess.run();
     } catch (Exception e) {
       onError.accept(makeErrorMessageForException(e));
     }
