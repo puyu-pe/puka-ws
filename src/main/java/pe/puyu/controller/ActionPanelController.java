@@ -111,31 +111,33 @@ public class ActionPanelController implements Initializable {
 
   @FXML
   void onTestPrintService(ActionEvent event) {
-    var name_system = cmbPrintService.getValue();
-    var type = cmbTypeConnection.getValue();
-    var port = txtPort.getText();
-    try {
-      txtInfoTestPrintService.setText("La prueba se ejecuto sin complicaciones.");
-      if (name_system == null) {
-        throw new Exception("El servicio de impresion es un campo obligatorio");
-      }
-      if (port.trim().isEmpty() && type.equalsIgnoreCase(SweetTicketPrinter.Type.ETHERNET.getValue())) {
-        throw new Exception("El puerto es un campo obligatorio en ethernet");
-      }
-      txtInfoTestPrintService.setStyle("-fx-text-fill: #2cfc03;");
-      txtInfoTestPrintService.setText("La prueba no lanzo una excepcion.");
-      TestPrinter.setRuntimeError((error) -> {
+    Platform.runLater(() -> {
+      var name_system = cmbPrintService.getValue();
+      var type = cmbTypeConnection.getValue();
+      var port = txtPort.getText();
+      try {
+        txtInfoTestPrintService.setText("La prueba se ejecuto sin complicaciones.");
+        if (name_system == null) {
+          throw new Exception("El servicio de impresion es un campo obligatorio");
+        }
+        if (port.trim().isEmpty() && type.equalsIgnoreCase(SweetTicketPrinter.Type.ETHERNET.getValue())) {
+          throw new Exception("El puerto es un campo obligatorio en ethernet");
+        }
+        txtInfoTestPrintService.setStyle("-fx-text-fill: #2cfc03;");
+        txtInfoTestPrintService.setText("La prueba no lanzo una excepcion.");
+        TestPrinter.setRuntimeError((error) -> {
+          txtInfoTestPrintService.setStyle("-fx-text-fill: red;");
+          txtInfoTestPrintService.setText(error);
+        });
+        TestPrinter.runTest(name_system, port, type);
+        cmbPrintService.getItems().removeIf(value -> value.equalsIgnoreCase(name_system));
+        cmbPrintService.getItems().add(name_system);
+        cmbPrintService.setValue(name_system);
+      } catch (Exception e) {
         txtInfoTestPrintService.setStyle("-fx-text-fill: red;");
-        txtInfoTestPrintService.setText(error);
-        cmbPrintService.getItems().removeIf(value -> value == name_system);
-      });
-      cmbPrintService.getItems().add(name_system);
-      TestPrinter.runTest(name_system, port, type);
-    } catch (Exception e) {
-      txtInfoTestPrintService.setStyle("-fx-text-fill: red;");
-      txtInfoTestPrintService.setText(e.getMessage());
-      cmbPrintService.getItems().removeIf(value -> value == name_system);
-    }
+        txtInfoTestPrintService.setText(e.getMessage());
+      }
+    });
   }
 
   private void onUpdateNumberItemsQueue(int numberItemsQueue) {
