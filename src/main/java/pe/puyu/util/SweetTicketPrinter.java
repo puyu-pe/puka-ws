@@ -48,7 +48,7 @@ public class SweetTicketPrinter {
     }
   }
 
-  public SweetTicketPrinter() {
+  public SweetTicketPrinter(JSONObject data) {
     this.ticket = data.getJSONObject("data");
     this.printerInfo = data.getJSONObject("printer");
     this.onSuccess = () -> System.out.println("on success not implemented: SweetTicketPrinter");
