@@ -1,5 +1,7 @@
 package pe.puyu.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -12,9 +14,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import pe.puyu.model.BifrostConfig;
+import pe.puyu.model.UserConfig;
 import pe.puyu.service.bifrost.BifrostService;
+import pe.puyu.util.JsonUtil;
 import pe.puyu.util.PukaAlerts;
 import pe.puyu.util.PukaUtil;
 
@@ -37,6 +44,7 @@ public class ActionPanelController implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     lblVersion.setText(PukaUtil.getPukaVersion());
+    initPerfilTab();
   }
 
   @FXML
@@ -78,6 +86,32 @@ public class ActionPanelController implements Initializable {
     });
   }
 
+  private void initPerfilTab() {
+    Platform.runLater(() -> {
+      try {
+        var userConfig = JsonUtil.convertFromJson(PukaUtil.getUserConfigFileDir(), UserConfig.class);
+        var bifrostConfig = JsonUtil.convertFromJson(PukaUtil.getBifrostConfigFileDir(), BifrostConfig.class);
+        if (userConfig.isPresent()) {
+          File logoFile = new File(userConfig.get().getLogoPath());
+          if (logoFile.exists()) {
+            String imgUrl = logoFile.toURI().toURL().toString();
+            imgLogo.setImage(new Image(imgUrl));
+          }
+        }
+
+        if (bifrostConfig.isPresent()) {
+          lblRuc.setText(bifrostConfig.get().getRuc());
+          lblBranch.setText(bifrostConfig.get().getBranch());
+        }
+
+      } catch (IOException e) {
+        lblRuc.setText("----------");
+        lblBranch.setText("-");
+        logger.error("Excepcion al iniacilizar la pestaña de perfil: {}", e.getMessage(), e);
+      }
+    });
+  }
+
   private Stage getStage() {
     return (Stage) root.getScene().getWindow();
   }
@@ -99,4 +133,13 @@ public class ActionPanelController implements Initializable {
 
   @FXML
   private Label lblVersion;
+
+  @FXML
+  private Label lblBranch;
+
+  @FXML
+  private Label lblRuc;
+
+  @FXML
+  private ImageView imgLogo;
 }
