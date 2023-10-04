@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import org.slf4j.LoggerFactory;
+import com.github.anastaciocintra.output.PrinterOutputStream;
 
 import ch.qos.logback.classic.Logger;
 import javafx.application.Platform;
@@ -14,8 +15,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import pe.puyu.model.BifrostConfig;
@@ -43,8 +48,9 @@ public class ActionPanelController implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    lblVersion.setText(PukaUtil.getPukaVersion());
     initPerfilTab();
+    lblVersion.setText(PukaUtil.getPukaVersion());
+    reloadPrintServices();
   }
 
   @FXML
@@ -76,6 +82,23 @@ public class ActionPanelController implements Initializable {
   @FXML
   void onHideWindow(ActionEvent event) {
     this.getStage().hide();
+  }
+
+  @FXML
+  void onReloadPrintServices(ActionEvent event) {
+    reloadPrintServices();
+  }
+
+  @FXML
+  void onClickListView(MouseEvent event) {
+    if (event.getClickCount() == 1) {
+      String selectedItem = listViewServices.getSelectionModel().getSelectedItem();
+      Clipboard clipboard = Clipboard.getSystemClipboard();
+      ClipboardContent content = new ClipboardContent();
+      content.putString(selectedItem);
+      clipboard.setContent(content);
+      PukaUtil.toast(getStage(), String.format("Se copio %s!!", selectedItem));
+    }
   }
 
   private void onUpdateNumberItemsQueue(int numberItemsQueue) {
@@ -112,6 +135,14 @@ public class ActionPanelController implements Initializable {
     });
   }
 
+  private void reloadPrintServices() {
+    String[] printServicesNames = PrinterOutputStream.getListPrintServicesNames();
+    listViewServices.getItems().clear();
+    for (String printServiceName : printServicesNames) {
+      listViewServices.getItems().add(printServiceName);
+    }
+  }
+
   private Stage getStage() {
     return (Stage) root.getScene().getWindow();
   }
@@ -142,4 +173,8 @@ public class ActionPanelController implements Initializable {
 
   @FXML
   private ImageView imgLogo;
+
+  @FXML
+  private ListView<String> listViewServices;
+
 }
