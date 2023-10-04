@@ -14,8 +14,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.image.Image;
@@ -29,6 +32,8 @@ import pe.puyu.service.bifrost.BifrostService;
 import pe.puyu.util.JsonUtil;
 import pe.puyu.util.PukaAlerts;
 import pe.puyu.util.PukaUtil;
+import pe.puyu.util.SweetTicketPrinter;
+import pe.puyu.util.TestPrinter;
 
 public class ActionPanelController implements Initializable {
   private static final Logger logger = (Logger) LoggerFactory.getLogger("pe.puyu.controller.actionPanel");
@@ -49,6 +54,7 @@ public class ActionPanelController implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     initPerfilTab();
+    initCmbTypeConnection();
     lblVersion.setText(PukaUtil.getPukaVersion());
     reloadPrintServices();
   }
@@ -93,11 +99,42 @@ public class ActionPanelController implements Initializable {
   void onClickListView(MouseEvent event) {
     if (event.getClickCount() == 1) {
       String selectedItem = listViewServices.getSelectionModel().getSelectedItem();
-      Clipboard clipboard = Clipboard.getSystemClipboard();
-      ClipboardContent content = new ClipboardContent();
-      content.putString(selectedItem);
-      clipboard.setContent(content);
-      PukaUtil.toast(getStage(), String.format("Se copio %s!!", selectedItem));
+      if (selectedItem != null) {
+        Clipboard clipboard = Clipboard.getSystemClipboard();
+        ClipboardContent content = new ClipboardContent();
+        content.putString(selectedItem);
+        clipboard.setContent(content);
+        PukaUtil.toast(getStage(), String.format("Se copio %s", selectedItem));
+      }
+    }
+  }
+
+  @FXML
+  void onTestPrintService(ActionEvent event) {
+    var name_system = cmbPrintService.getValue();
+    var type = cmbTypeConnection.getValue();
+    var port = txtPort.getText();
+    try {
+      txtInfoTestPrintService.setText("La prueba se ejecuto sin complicaciones.");
+      if (name_system == null) {
+        throw new Exception("El servicio de impresion es un campo obligatorio");
+      }
+      if (port.trim().isEmpty() && type.equalsIgnoreCase(SweetTicketPrinter.Type.ETHERNET.getValue())) {
+        throw new Exception("El puerto es un campo obligatorio en ethernet");
+      }
+      txtInfoTestPrintService.setStyle("-fx-text-fill: #2cfc03;");
+      txtInfoTestPrintService.setText("La prueba no lanzo una excepcion.");
+      TestPrinter.setRuntimeError((error) -> {
+        txtInfoTestPrintService.setStyle("-fx-text-fill: red;");
+        txtInfoTestPrintService.setText(error);
+        cmbPrintService.getItems().removeIf(value -> value == name_system);
+      });
+      cmbPrintService.getItems().add(name_system);
+      TestPrinter.runTest(name_system, port, type);
+    } catch (Exception e) {
+      txtInfoTestPrintService.setStyle("-fx-text-fill: red;");
+      txtInfoTestPrintService.setText(e.getMessage());
+      cmbPrintService.getItems().removeIf(value -> value == name_system);
     }
   }
 
@@ -143,6 +180,16 @@ public class ActionPanelController implements Initializable {
     }
   }
 
+  private void initCmbTypeConnection() {
+    cmbTypeConnection.getItems().add(SweetTicketPrinter.Type.WINDOWS_USB.getValue());
+    cmbTypeConnection.getItems().add(SweetTicketPrinter.Type.LINUX_USB.getValue());
+    cmbTypeConnection.getItems().add(SweetTicketPrinter.Type.SAMBA.getValue());
+    cmbTypeConnection.getItems().add(SweetTicketPrinter.Type.SERIAL.getValue());
+    cmbTypeConnection.getItems().add(SweetTicketPrinter.Type.CUPS.getValue());
+    cmbTypeConnection.getItems().add(SweetTicketPrinter.Type.ETHERNET.getValue());
+    cmbTypeConnection.setValue(SweetTicketPrinter.Type.ETHERNET.getValue());
+  }
+
   private Stage getStage() {
     return (Stage) root.getScene().getWindow();
   }
@@ -177,4 +224,15 @@ public class ActionPanelController implements Initializable {
   @FXML
   private ListView<String> listViewServices;
 
+  @FXML
+  private ComboBox<String> cmbPrintService;
+
+  @FXML
+  private ComboBox<String> cmbTypeConnection;
+
+  @FXML
+  private TextArea txtInfoTestPrintService;
+
+  @FXML
+  private TextField txtPort;
 }

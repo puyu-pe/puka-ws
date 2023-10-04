@@ -20,8 +20,35 @@ public class SweetTicketPrinter {
   private JSONObject data = new JSONObject();
   private JSONObject metadata = new JSONObject();
 
-  public SweetTicketPrinter(JSONObject data) {
-    this.data = data;
+  public enum Type {
+    WINDOWS_USB("windows-usb"),
+    LINUX_USB("linux-usb"),
+    SAMBA("samba"),
+    SERIAL("serial"),
+    CUPS("cups"),
+    ETHERNET("ethernet");
+
+    private String value;
+
+    Type(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return this.value;
+    }
+
+    public static Type fromValue(String value) {
+      for (Type type : Type.values()) {
+        if (type.value.equals(value)) {
+          return type;
+        }
+      }
+      throw new IllegalArgumentException("Tipo invalido de para enum Type: " + value);
+    }
+  }
+
+  public SweetTicketPrinter() {
     this.ticket = data.getJSONObject("data");
     this.printerInfo = data.getJSONObject("printer");
     this.onSuccess = () -> System.out.println("on success not implemented: SweetTicketPrinter");
@@ -63,19 +90,19 @@ public class SweetTicketPrinter {
   }
 
   private OutputStream getOutputStreamByPrinterType() throws Exception {
-    var typeConnection = this.printerInfo.getString("type");
+    var typeConnection = Type.fromValue(this.printerInfo.getString("type"));
     var name_system = this.printerInfo.getString("name_system");
     var port = this.printerInfo.getInt("port");
     switch (typeConnection) {
-      case "windows-usb":
-      case "samba":
-      case "serial":
-      case "cups":
+      case WINDOWS_USB:
+      case SAMBA:
+      case SERIAL:
+      case CUPS:
         var printService = PrinterOutputStream.getPrintServiceByName(name_system);
         var printerOutputStream = new PrinterOutputStream(printService);
         printerOutputStream.setUncaughtException(this::uncaughtException);
         return printerOutputStream;
-      case "ethernet":
+      case ETHERNET:
         var tcpIpOutputStream = new TcpIpOutputStream(name_system, port);
         tcpIpOutputStream.setUncaughtException(this::uncaughtException);
         return tcpIpOutputStream;

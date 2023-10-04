@@ -50,8 +50,9 @@
 /* Fix derived prompt color for text fields */
 .text-input {
   -fx-prompt-text-fill: derive(-fx-control-inner-background, +50%);
-  -fx-text-fill: dark-primary-color;
-  -fx-font-weight: bold;
+  /* -fx-text-fill: dark-primary-color; */
+  -fx-text-fill: white;
+  /* -fx-font-weight: bold; */
   -fx-background-radius: 0.2em;
   -fx-border-radius: 0.2em;
 }
