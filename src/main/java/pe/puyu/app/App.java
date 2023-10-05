@@ -22,13 +22,13 @@ import pe.puyu.util.PukaUtil;
 import pe.puyu.validations.BifrostValidator;
 
 public class App extends Application {
-
+  //Level error : TRACE DEBUG INFO WARN ERROR
   private static final Logger rootLogger = (Logger) LoggerFactory.getLogger("pe.puyu");
   private Optional<BifrostConfig> bifrostConfig = Optional.empty();
 
   @Override
   public void init() {
-    rootLogger.setLevel(Level.TRACE);
+    rootLogger.setLevel(Level.INFO);
     var config = rebuildBifrostConfig();
     if (config.isPresent()) {
       bifrostConfig = config;
