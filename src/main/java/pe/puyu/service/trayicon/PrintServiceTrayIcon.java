@@ -1,8 +1,5 @@
 package pe.puyu.service.trayicon;
 
-import java.awt.Desktop;
-import java.io.IOException;
-
 import com.dustinredmond.fxtrayicon.FXTrayIcon;
 
 import javafx.event.ActionEvent;
@@ -25,6 +22,8 @@ public class PrintServiceTrayIcon {
     this.bifrostService = bifrostService;
     loadStage();
     loadTrayIcon();
+    this.bifrostService.setListenerInfoNotification(this::onInfoMessageBifrost);
+    this.bifrostService.setListenerErrorNotification(this::onErrorMessageBifrost);
   }
 
   public void show() {
@@ -53,6 +52,14 @@ public class PrintServiceTrayIcon {
     ClipboardContent content = new ClipboardContent();
     content.putString(PukaUtil.getLogsDirectory());
     clipboard.setContent(content);
+  }
+
+  private void onInfoMessageBifrost(String title, String message) {
+    trayIcon.showInfoMessage(title, message);
+  }
+
+  private void onErrorMessageBifrost(String title, String message) {
+    trayIcon.showErrorMessage(title, message);
   }
 
 }

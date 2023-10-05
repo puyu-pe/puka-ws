@@ -50,8 +50,8 @@ public class PukaUtil {
     return file.getAbsolutePath();
   }
 
-  public static String getLogsDirectory(){
-    return String.format("%s/puyu",System.getProperty("java.io.tmpdir"));
+  public static String getLogsDirectory() {
+    return String.format("%s/puyu", System.getProperty("java.io.tmpdir"));
   }
 
   public static String getPukaVersion() {
@@ -70,7 +70,7 @@ public class PukaUtil {
     FileChooser.ExtensionFilter pngFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
     fileChooser.getExtensionFilters().add(pngFilter);
     File selectFile = fileChooser.showOpenDialog(parent);
-    return Optional.of(selectFile);
+    return Optional.ofNullable(selectFile);
   }
 
   public static void toast(Stage stage, String text) {

@@ -24,10 +24,9 @@ public class BifrostServiceLauncher {
     return uri;
   }
 
-  public Optional<BifrostService> tryStart() {
+  public Optional<BifrostService> buildBifrostService() {
     try {
       var bifrostService = new BifrostService(new URI(uriStr));
-      bifrostService.start();
       return Optional.ofNullable(bifrostService);
     } catch (Exception e) {
       logger.error("Excepción al lanzar el servicio de bifrost: {}", e.getMessage(), e);

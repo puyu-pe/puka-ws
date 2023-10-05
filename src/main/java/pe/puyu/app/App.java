@@ -45,9 +45,10 @@ public class App extends Application {
         stage.setTitle("Configuración de cliente servicio de impresión");
         stage.show();
       } else {
-        var service = new BifrostServiceLauncher(bifrostConfig.get()).tryStart();
+        var service = new BifrostServiceLauncher(bifrostConfig.get()).buildBifrostService();
         if (service.isPresent()) {
           new PrintServiceTrayIcon(service.get()).show();
+          service.get().start();
         }
       }
     } catch (Exception e) {

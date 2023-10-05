@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.json.JSONArray;
@@ -26,6 +27,10 @@ public class BifrostService {
   int attempsConnection;
 
   private List<Consumer<Integer>> updateItemsQueueListeners;
+  private BiConsumer<String, String> listenerInfo = (title, message) -> logger
+      .info(String.format("%s: %s", title, message));
+  private BiConsumer<String, String> listenerError = (title, message) -> logger
+      .error(String.format("%s: %s", title, message));
 
   public BifrostService(URI uri) {
     IO.Options options = IO.Options.builder().build();
@@ -77,13 +82,15 @@ public class BifrostService {
   }
 
   private void onConnected(Object... args) {
-    // TODO: Notify onConnectedSuccess
     attempsConnection = 0;
     logger.info("Se establecio conexión con {}", uriBifrost);
     requestToGetPrintingQueue();
+    listenerInfo.accept("Conexión exitosa", "Puka recupero la conexión con el servidor");
   }
 
   private void onConnectedError(Object... args) {
+    listenerError.accept("Conexión perdida",
+        String.format("%s. Intentando conectarse al servidor intento: %s", args[0], attempsConnection));
     ++attempsConnection;
     logger.error("Ocurrio un error al intentar conectarse: {}, ...reintentando n° {}", args[0], attempsConnection);
   }
@@ -93,6 +100,8 @@ public class BifrostService {
     if (args.length > 0)
       message = args[0].toString();
     logger.info("El servicio a sido desconectado: {}", message);
+    listenerError.accept("Servicio caido",
+        "El servicio ha perdido la conexión, Si dejo de imprimirse tickets comunicarse con sopote puyu por favor.");
   }
 
   private void onSendNumberItemsQueue(Object... args) {
@@ -130,7 +139,15 @@ public class BifrostService {
     logger.debug("Se solicita items en cola");
   }
 
-  public void printItems(Map<String, JSONObject> queue) {
+  public void setListenerInfoNotification(BiConsumer<String, String> callback) {
+    this.listenerInfo = callback;
+  }
+
+  public void setListenerErrorNotification(BiConsumer<String, String> callback) {
+    this.listenerError = callback;
+  }
+
+  private void printItems(Map<String, JSONObject> queue) {
     logger.debug("Se recibe {} items de bifrost", queue.size());
     for (Map.Entry<String, JSONObject> entry : queue.entrySet()) {
       var id = entry.getKey();
@@ -146,12 +163,16 @@ public class BifrostService {
           CompletableFuture.runAsync(() -> {
             new SweetTicketPrinter(ticket)
                 .setOnSuccess(() -> emitPrintItem(id))
-                .setOnError(error -> logger.error("No se pudo imprimir el ticket con id {}, error: {}", id, error))
+                .setOnError(error -> {
+                  listenerError.accept("No se pudo imprimir un ticket", error);
+                  logger.error("No se pudo imprimir el ticket con id {}, error: {}", id, error);
+                })
                 .printTicket();
           });
         }
       } catch (Exception e) {
         logger.error("Excepción intentar imprimir ticket con id {}: {}", id, e.getMessage(), e);
+        listenerError.accept("No se pudo imprimir un ticket", e.getMessage());
       }
     }
   }

@@ -64,9 +64,10 @@ public class UserConfigController implements Initializable {
       if (errors.isEmpty()) {
         getStage().close();
         persistBifrostConfig();
-        Optional<BifrostService> service = new BifrostServiceLauncher(bifrostConfig).tryStart();
+        Optional<BifrostService> service = new BifrostServiceLauncher(bifrostConfig).buildBifrostService();
         if (service.isPresent()) {
           new PrintServiceTrayIcon(service.get()).show();
+          service.get().start();
         }
       } else {
         PukaAlerts.showWarning("Configuración invalida detectada.", String.join("\n", errors));
