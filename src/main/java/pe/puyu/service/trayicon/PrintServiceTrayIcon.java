@@ -1,13 +1,20 @@
 package pe.puyu.service.trayicon;
 
+import java.awt.Desktop;
+import java.io.IOException;
+
 import com.dustinredmond.fxtrayicon.FXTrayIcon;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.stage.Stage;
 import pe.puyu.controller.ActionPanelController;
 import pe.puyu.service.bifrost.BifrostService;
+import pe.puyu.util.PukaUtil;
 
 public class PrintServiceTrayIcon {
   private FXTrayIcon trayIcon;
@@ -37,7 +44,15 @@ public class PrintServiceTrayIcon {
 
   private void loadTrayIcon() {
     trayIcon = new FXTrayIcon.Builder(parentStage, getClass().getResource("/assets/icon.png"))
+        .menuItem("Portapapeles Logs", this::onClickCopyLogsDirectoryToClipboard)
         .build();
+  }
+
+  private void onClickCopyLogsDirectoryToClipboard(ActionEvent event) {
+    Clipboard clipboard = Clipboard.getSystemClipboard();
+    ClipboardContent content = new ClipboardContent();
+    content.putString(PukaUtil.getLogsDirectory());
+    clipboard.setContent(content);
   }
 
 }

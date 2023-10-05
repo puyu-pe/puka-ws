@@ -50,6 +50,10 @@ public class PukaUtil {
     return file.getAbsolutePath();
   }
 
+  public static String getLogsDirectory(){
+    return String.format("%s/puyu",System.getProperty("java.io.tmpdir"));
+  }
+
   public static String getPukaVersion() {
     try {
       BufferedReader reader = new BufferedReader(new FileReader("./VERSION"));
