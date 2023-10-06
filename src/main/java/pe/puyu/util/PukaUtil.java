@@ -51,7 +51,7 @@ public class PukaUtil {
   }
 
   public static String getLogsDirectory() {
-    return String.format("%s/puyu", System.getProperty("java.io.tmpdir"));
+    return Path.of(System.getProperty("java.io.tmpdir"),"puyu").toString();
   }
 
   public static String getPukaVersion() {
