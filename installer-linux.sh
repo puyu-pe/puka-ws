@@ -62,7 +62,8 @@ echo "detected modules: ${detected_modules}"
 #
 # Don't forget the leading ','!
 
-manual_modules=,jdk.localedata,javafx.controls,javafx.fxml
+manual_modules=,jdk.crypto.ec
+
 echo "manual modules: ${manual_modules}"
 
 # ------ RUNTIME IMAGE ------------------------------------------------------
@@ -78,9 +79,7 @@ $JAVA_HOME/bin/jlink \
   --no-man-pages  \
   --compress=2  \
   --strip-debug \
-  --module-path target/libs \
   --add-modules "${detected_modules}${manual_modules}" \
-  --include-locales=en,es \
   --output target/java-runtime
 
 # ------ PACKAGING ----------------------------------------------------------
@@ -93,7 +92,7 @@ $JAVA_HOME/bin/jpackage \
 --dest target/installer \
 --input target/installer/input/libs \
 --name PUKA \
---main-class pe.puyu.app.App \
+--main-class pe.puyu.AppLauncher \
 --main-jar ${MAIN_JAR} \
 --java-options -Xmx2048m \
 --runtime-image target/java-runtime \
