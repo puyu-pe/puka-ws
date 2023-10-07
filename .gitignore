@@ -1,3 +1,7 @@
+#editores de codigo 
+.vscode
+.idea
+
 # Maven build directory
 target/
 
@@ -5,6 +9,8 @@ target/
 .classpath
 .project
 .settings/
+.metadata
+jdt.ls-java-project
 
 # IntelliJ IDEA files (if you're using IntelliJ IDEA)
 .idea/

@@ -1,0 +1,222 @@
+.root {
+  dark-primary-color: #242526;
+  light-primary-color: #f5f5f5;
+  primary-color: #616161;
+  text-icons-color: #212121;
+  accent-color: #03a9f4;
+  primary-text: #d4d4d4;
+  secondary-text: #757575;
+  divider-color: #bdbdbd;
+
+  -fx-base: primary-color;
+  -fx-background: dark-primary-color;
+
+  /* make controls (buttons, thumb, etc.) slightly lighter */
+  -fx-color: derive(-fx-base, 10%);
+
+  /* text fields and table rows background */
+  -fx-control-inner-background: -fx-base;
+  /* version of -fx-control-inner-background for alternative rows */
+  -fx-control-inner-background-alt: derive(-fx-control-inner-background, 7%);
+
+  /* text colors depending on background's brightness */
+  -fx-light-text-color: light-primary-color; /* rgb(255, 253, 253) */
+  -fx-mid-text-color: primary-text /* rgb(100, 100, 100) */;
+  -fx-dark-text-color: primary-text /* rgb(20, 20, 20) */;
+
+  /* A bright blue for highlighting/accenting objects.  For example: selected
+     * text; selected items in menus, lists, trees, and tables; progress bars */
+  -fx-accent: accent-color;
+
+  /* color of non-focused yet selected elements */
+  -fx-selection-bar-non-focused: rgb(50, 50, 50);
+
+  /*paleta de colores personal*/
+  button-primary-color: accent-color;
+  button-secondary-color: derive(accent-color, 30%);
+  tile-pane-color: derive(dark-primary-color, -40%);
+  border-tab-color: accent-color;
+  -fx-font-size: 16;
+  -fx-font-family: "Arial";
+  title-color: light-primary-color /* rgb(1, 255, 149) */;
+
+  -fx-background-color: linear-gradient(
+    to left,
+    primary-color,
+    dark-primary-color
+  );
+}
+
+/* Fix derived prompt color for text fields */
+.text-input {
+  -fx-prompt-text-fill: derive(-fx-control-inner-background, +50%);
+  /* -fx-text-fill: dark-primary-color; */
+  -fx-text-fill: white;
+  /* -fx-font-weight: bold; */
+  -fx-background-radius: 0.2em;
+  -fx-border-radius: 0.2em;
+}
+
+/* Keep prompt invisible when focused (above color fix overrides it) */
+.text-input:focused {
+  -fx-prompt-text-fill: transparent;
+  -fx-border-color: accent-color;
+  -fx-border-width: 1.5px;
+}
+
+/* Fix scroll bar buttons arrows colors */
+.scroll-bar > .increment-button > .increment-arrow,
+.scroll-bar > .decrement-button > .decrement-arrow {
+  -fx-background-color: -fx-mark-highlight-color, rgb(220, 220, 220);
+}
+
+.scroll-bar > .increment-button:hover > .increment-arrow,
+.scroll-bar > .decrement-button:hover > .decrement-arrow {
+  -fx-background-color: -fx-mark-highlight-color, rgb(240, 240, 240);
+}
+
+.scroll-bar > .increment-button:pressed > .increment-arrow,
+.scroll-bar > .decrement-button:pressed > .decrement-arrow {
+  -fx-background-color: -fx-mark-highlight-color, rgb(255, 255, 255);
+}
+
+/*seccion personalizadad*/
+.button {
+  -fx-cursor: hand;
+  -fx-background-radius: 10em;
+  -fx-text-fill: primary-text;
+  -fx-font-size: 1.1em;
+  -fx-font-weight: 700;
+  -fx-background-insets: 0px, 4px;
+  -fx-background-color: button-primary-color, button-secondary-color;
+}
+
+.button:hover {
+  -fx-background-color: button-primary-color,
+    derive(button-secondary-color, -10%);
+}
+
+.button:pressed {
+  -fx-effect: dropshadow(three-pass-box, light-primary-color, 10, 0.5, 0, 0);
+  -fx-background-color: derive(button-primary-color, 10%),
+    derive(button-secondary-color, -20%);
+}
+
+.button:default {
+  -fx-background-insets: 0px, 2px;
+  -fx-background-color: button-secondary-color,
+    derive(button-primary-color, -15%);
+}
+.button:cancel {
+  -fx-background-insets: 0px, 2px;
+  -fx-background-color: rgb(255,0,0),rgb(245,92,81)
+}
+.button:default:hover {
+  -fx-background-color: button-primary-color,
+    derive(button-secondary-color, -10%);
+}
+
+.btn-danger{
+  -fx-background-insets: 0px, 2px;
+  -fx-background-color: rgb(255,0,0),rgb(245,92,81)
+}
+
+.label {
+  -fx-text-fill: primary-text;
+}
+
+.image {
+  -fx-fit-width: 40;
+}
+
+/*table-view  */
+
+.table-view {
+  -fx-background-color: transparent;
+}
+
+.table-view .table-column{
+	-fx-alignment: CENTER;
+}
+
+.table-view .column-header-background .filler {
+  -fx-background-color: transparent;
+}
+.table-view .corner {
+  -fx-background-color: transparent;
+}
+
+.table-view .column-header-background {
+  -fx-background-color: linear-gradient(
+    to top,
+    primary-color,
+    dark-primary-color
+  );
+  -fx-background-radius: 7px 7px 0px 0px;
+  -fx-background-insets: 0 11px 0 0;
+  -fx-padding: 0 0 5px 0;
+}
+
+.table-view .column-header {
+  -fx-background-color: transparent;
+}
+
+.table-view .table-cell {
+  -fx-border-color: transparent;
+  -fx-padding: 2 0 2 10px;
+}
+.table-row-cell:hover {
+  -fx-background-color: accent-color;
+  -fx-text-background-color: rgb(145, 238, 157);
+}
+.table-row-cell:odd {
+  -fx-background-color: linear-gradient(
+    to left,
+    dark-primary-color,
+    primary-color
+  );
+  -fx-background-insets: 0, 0 0 1 0;
+  -fx-padding: 0em;
+}
+.table-row-cell:even {
+  -fx-background-color: linear-gradient(
+    to right,
+    primary-color,
+    derive(dark-primary-color,-15%)
+  );
+  -fx-background-insets: 0, 0 0 1 0;
+  -fx-padding: 0em;
+}
+
+.table-view .virtual-flow .scroll-bar:vertical,
+.table-view .virtual-flow .scroll-bar:vertical .track,
+.table-view .virtual-flow .scroll-bar:vertical .track-background,
+.table-view .virtual-flow .scroll-bar:horizontal,
+.table-view .virtual-flow .scroll-bar:horizontal .track,
+.table-view .virtual-flow .scroll-bar:horizontal .track-background {
+  -fx-background-color: transparent;
+}
+.table-view .virtual-flow .scroll-bar .increment-button,
+.table-view .virtual-flow .scroll-bar .decrement-button {
+  -fx-opacity: 0;
+  -fx-padding: 2;
+}
+.table-view .virtual-flow .scroll-bar .increment-button,
+.table-view .virtual-flow .scroll-bar .decrement-button {
+  -fx-opacity: 0;
+  -fx-padding: 2;
+}
+.table-view .virtual-flow .scroll-bar .increment-button,
+.table-view .virtual-flow .scroll-bar .decrement-button {
+  -fx-opacity: 0;
+  -fx-padding: 2;
+}
+
+/**/
+.container{
+  -fx-padding: 10;
+}
+
+.checkbox{
+  -fx-text-fill: #fff;
+}
