@@ -20,7 +20,7 @@ module pe.puyu.puka {
 
   requires com.google.gson;
   requires org.hildan.fxgson;
-  opens pe.puyu.model to com.google.gson, org.hildan.fxgson;
+  opens pe.puyu.model.beans to com.google.gson, org.hildan.fxgson;
 
 
   requires net.harawata.appdirs;

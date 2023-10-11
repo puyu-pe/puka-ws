@@ -1,4 +1,4 @@
-package pe.puyu.model;
+package pe.puyu.model.beans;
 
 import javafx.beans.property.SimpleStringProperty;
 

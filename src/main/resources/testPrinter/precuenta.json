@@ -1,0 +1,32 @@
+{
+  "type": "precount",
+  "times": 1,
+  "data": {
+    "business": {
+      "description": "PUYU SRL"
+    },
+    "document": {
+      "description": "PRECUENTA"
+    },
+    "additional": [
+      "FECHA EMISIÓN : 01/10/2019 14:51:26",
+      "Mesero(a) : Luis",
+      "Mesa : Delivery"
+    ],
+    "items": [
+      {
+        "quantity": 1,
+        "description": "HAWAYANA (FAMILIAR)",
+        "totalPrice": 14.50
+      },
+      {
+        "quantity": 1,
+        "description": "HAWAYANA (PERSONAL)",
+        "totalPrice": 14.50
+      }
+    ],
+    "amounts": {
+      "Total": "25.00"
+    }
+  }
+}

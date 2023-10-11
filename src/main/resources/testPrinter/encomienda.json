@@ -1,0 +1,63 @@
+{
+  "type": "invoice",
+  "times": 1,
+  "data": {
+    "document": {
+      "description": "PUYU SRL",
+      "identifier": "B001 - 00000071"
+    },
+    "business": {
+      "comercialDescription": {
+        "type": "text",
+        "value": "REY DE LOS ANDES"
+      },
+      "description": "EMPRESA DE TRANSPORTES REY DE LOS ANDES S.A.C.",
+      "additional": [
+        "RUC 20450523381 AGENCIA ABANCAY",
+        "DIRECCIÓN : Av. Brasil S/N",
+        "TELÉFONO : 989290733"
+      ]
+    },
+    "customer": [
+      "REMITENTE / CLIENTE",
+      "DNI: 20564379248",
+      "FASTWORKX SRL",
+      "AV CANADA N 159 ABANCAY ABANCAY APURIMAC"
+    ],
+    "additional": [
+      "FECHA EMISIÓN : 01/10/2019 14:51:26",
+      "MONEDA : SOLES",
+      "CONSIGNADO : RENZO ZABALA"
+    ],
+    "items": [
+      {
+        "description": "Tipo : Cajas cerradas",
+        "quantity": 2,
+        "totalPrice": "20.00"
+      },
+      {
+        "description": "Giro de dinero",
+        "quantity": 1,
+        "totalPrice": "5.00"
+      }
+    ],
+    "amounts": {
+      "Operacion no gravada": "25.00",
+      "IGV": 0,
+      "Total": "25.00"
+    },
+    "additionalFooter": [
+      "FECHA IMPR: 02/10/2019 16:12:34",
+      "USUARIO : ADMIN | AGENCIA : ABANCAY"
+    ],
+    "finalMessage": [
+      "REPRESENTACIÓN IMPRESA DE FACTURA ELECTRÓNICA",
+      "PARA CONSULTAR EL DOCUMENTO VISITA NEXUS:",
+      "HTTPS://NEXUS.FASTWORKX.COM/20450523381",
+      "RESUMEN: Bfdfg+sdfsAfKfVs=",
+      "",
+      "POR FASTWORKX S.R.L. - PERÚ"
+    ],
+    "stringQR": "20450523381|01|F001|00000006|0|9.00|30/09/2019|6|sdfsdfsdf|"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "type": "invoice",
+  "times": 1,
+  "data": {
+    "business": {
+      "comercialDescription": {
+        "type": "text",
+        "value": "PUYU SRL"
+      },
+      "description": "EMPRESA DE TRANSPORTES REY DE LOS ANDES S.A.C.",
+      "document": "RUC",
+      "documentNumber": "20450523381"
+    },
+    "document": {
+      "description": "Control de",
+      "identifier": "B001 - 00000071"
+    },
+    "additional": [
+      "FECHA EMISIÓN : 01/10/2019 14:51:26",
+      "USUARIO : admin"
+    ],
+    "items": [
+      {
+        "description": [
+          "Embarque : ABANCAY",
+          "Destino : CHALHUANCA",
+          "Asiento : 2",
+          "Pasajero : EMERSON ÑAHUINLLA VELASQUEZ",
+          "F. Viaje : 01/10/2019 02:00 PM",
+          "Conductor : QUISPE CONTRERAS GUILLERMO",
+          "Bus : TOYOTA  HIACE PLACA D6R-954",
+          ""
+        ],
+        "totalPrice": "9.00"
+      }
+    ],
+    "finalMessage": "*** CONTROL DE BUS ***"
+  }
+}

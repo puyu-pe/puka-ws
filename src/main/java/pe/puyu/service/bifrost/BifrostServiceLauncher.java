@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Logger;
-import pe.puyu.model.BifrostConfig;
+import pe.puyu.model.beans.BifrostConfig;
 
 public class BifrostServiceLauncher {
   private String uriStr;
