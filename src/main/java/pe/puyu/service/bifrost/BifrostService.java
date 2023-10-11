@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import ch.qos.logback.classic.Logger;
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import pe.puyu.util.SweetTicketPrinter;
+import pe.puyu.service.printer.SweetTicketPrinter;
 
 import java.util.concurrent.CompletableFuture;
 

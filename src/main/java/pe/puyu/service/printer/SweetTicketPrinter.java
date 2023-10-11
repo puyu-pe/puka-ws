@@ -1,15 +1,14 @@
-package pe.puyu.util;
+package pe.puyu.service.printer;
 
 import java.io.OutputStream;
 import java.util.function.Consumer;
 
 import org.json.JSONObject;
 
-import com.github.anastaciocintra.output.PrinterOutputStream;
-import com.github.anastaciocintra.output.TcpIpOutputStream;
-
 import pe.puyu.jticketdesing.core.SweetTicketDesing;
-import pe.puyu.model.UserConfig;
+import pe.puyu.model.beans.UserConfig;
+import pe.puyu.util.JsonUtil;
+import pe.puyu.util.PukaUtil;
 
 public class SweetTicketPrinter {
   private Runnable onSuccess;
@@ -20,36 +19,8 @@ public class SweetTicketPrinter {
   private JSONObject data = new JSONObject();
   private JSONObject metadata = new JSONObject();
 
-  public enum Type {
-    WINDOWS_USB("windows-usb"),
-    LINUX_USB("linux-usb"),
-    SAMBA("samba"),
-    SERIAL("serial"),
-    CUPS("cups"),
-    ETHERNET("ethernet");
-
-    private String value;
-
-    Type(String value) {
-      this.value = value;
-    }
-
-    public String getValue() {
-      return this.value;
-    }
-
-    public static Type fromValue(String value) {
-      for (Type type : Type.values()) {
-        if (type.value.equals(value)) {
-          return type;
-        }
-      }
-      throw new IllegalArgumentException("Tipo invalido de para enum Type: " + value);
-    }
-  }
-
   public SweetTicketPrinter(JSONObject data) {
-		this.data = data;
+    this.data = data;
     this.ticket = data.getJSONObject("data");
     this.printerInfo = data.getJSONObject("printer");
     this.onSuccess = () -> System.out.println("on success not implemented: SweetTicketPrinter");
@@ -88,28 +59,29 @@ public class SweetTicketPrinter {
     if (userConfig.isPresent()) {
       metadata.put("logoPath", userConfig.get().getLogoPath());
     }
+    if (printerInfo.has("backgroundInverted") && !printerInfo.isNull("backgroundInverted")) {
+      metadata.put("backgroundInverted", printerInfo.getBoolean("backgroundInverted"));
+    }
+    if (printerInfo.has("nativeQR") && !printerInfo.isNull("nativeQR")) {
+      metadata.put("nativeQR", printerInfo.getBoolean("nativeQR"));
+    }
+    if (printerInfo.has("charCodeTable") && !printerInfo.isNull("charCodeTable")) {
+      metadata.put("charCodeTable", printerInfo.getString("charCodeTable"));
+    }
+    if (printerInfo.has("charSetName") && !printerInfo.isNull("charSetName")) {
+      metadata.put("charSetName", printerInfo.getString("charSetName"));
+    }
   }
 
   private OutputStream getOutputStreamByPrinterType() throws Exception {
-    var typeConnection = Type.fromValue(this.printerInfo.getString("type"));
+    if(this.printerInfo.isNull("name_system"))
+      throw new Exception("name_system esta vacio");
     var name_system = this.printerInfo.getString("name_system");
     var port = this.printerInfo.getInt("port");
-    switch (typeConnection) {
-      case WINDOWS_USB:
-      case SAMBA:
-      case SERIAL:
-      case CUPS:
-        var printService = PrinterOutputStream.getPrintServiceByName(name_system);
-        var printerOutputStream = new PrinterOutputStream(printService);
-        printerOutputStream.setUncaughtException(this::uncaughtException);
-        return printerOutputStream;
-      case ETHERNET:
-        var tcpIpOutputStream = new TcpIpOutputStream(name_system, port);
-        tcpIpOutputStream.setUncaughtException(this::uncaughtException);
-        return tcpIpOutputStream;
-      default:
-        throw new Exception(String.format("Tipo de conexión: %s, no soportado", typeConnection));
-    }
+    var outputStream = Printer.getOutputStreamFor(name_system, port, this.printerInfo.getString("type"));
+    Printer.setOnUncaughtExceptionFor(outputStream,
+        error -> onError.accept(makeErrorMessageForException(new Exception(error))));
+    return outputStream;
   }
 
   private String makeErrorMessageForException(Exception e) {
@@ -118,7 +90,4 @@ public class SweetTicketPrinter {
         e.getMessage());
   }
 
-  private void uncaughtException(Thread t, Throwable e) {
-    onError.accept(makeErrorMessageForException((Exception) e));
-  }
 }
