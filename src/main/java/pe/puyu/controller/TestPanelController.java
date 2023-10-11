@@ -11,7 +11,6 @@ import com.github.anastaciocintra.escpos.EscPosConst.Justification;
 import com.github.anastaciocintra.escpos.Style.FontSize;
 
 import ch.qos.logback.classic.Logger;
-import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
