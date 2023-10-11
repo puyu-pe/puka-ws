@@ -11,11 +11,11 @@ rem APP_VERSION: the application version, e.g. 1.0.0, shown in "about" dialog
 
 set JAVA_VERSION=17
 set PROJECT_VERSION=0.1.0
-set APP_VERSION=0.1.0
+set APP_VERSION=0.1.1
 set MAIN_JAR="puka-0.1.0.jar"
 
 rem Set desired installer type: "app-image" "msi" "exe".
-set INSTALLER_TYPE=msi
+set INSTALLER_TYPE=exe
 
 rem ------ SETUP DIRECTORIES AND FILES ----------------------------------------
 rem Remove previously generated java runtime and installers. Copy all required
@@ -57,7 +57,7 @@ rem e.g., --include-locales=en,de.
 rem
 rem Don't forget the leading ','!
 
-set manual_modules=,jdk.localedata,javafx.controls,javafx.fxml
+set manual_modules=,jdk.crypto.ec
 echo manual modules: %manual_modules%
 
 rem ------ RUNTIME IMAGE ------------------------------------------------------
@@ -74,9 +74,7 @@ call "%JAVA_HOME%\bin\jlink" ^
   --no-man-pages ^
   --compress=2 ^
   --strip-debug ^
-  --module-path target/libs ^
   --add-modules %detected_modules%%manual_modules% ^
-  --include-locales=en,es ^
   --output target/java-runtime
 
 
@@ -88,7 +86,7 @@ call "%JAVA_HOME%\bin\jpackage" ^
   --dest target/installer ^
   --input target/installer/input/libs ^
   --name PUKA ^
-  --main-class pe.puyu.app.App ^
+  --main-class pe.puyu.AppLauncher ^
   --main-jar %MAIN_JAR% ^
   --java-options -Xmx2048m ^
   --runtime-image target/java-runtime ^
