@@ -14,7 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import pe.puyu.model.BifrostConfig;
+import pe.puyu.model.beans.BifrostConfig;
 import pe.puyu.service.bifrost.BifrostServiceLauncher;
 import pe.puyu.service.trayicon.PrintServiceTrayIcon;
 import pe.puyu.util.JsonUtil;
@@ -22,7 +22,7 @@ import pe.puyu.util.PukaUtil;
 import pe.puyu.validations.BifrostValidator;
 
 public class App extends Application {
-  //Level error : TRACE DEBUG INFO WARN ERROR
+  // Level error : TRACE DEBUG INFO WARN ERROR
   private static final Logger rootLogger = (Logger) LoggerFactory.getLogger("pe.puyu");
   private Optional<BifrostConfig> bifrostConfig = Optional.empty();
 

@@ -1,0 +1,61 @@
+{
+  "type": "invoice",
+  "times": 1,
+  "data": {
+    "business": {
+      "comercialDescription": {
+        "type": "text",
+        "value": "REY DE LOS ANDES"
+      },
+      "description": "PUYU SRL.",
+      "additional": [
+        "RUC 20450523381 AGENCIA ABANCAY",
+        "DIRECCIÓN : Av. Brasil S/N",
+        "TELÉFONO : 989290733"
+      ]
+    },
+    "document": {
+      "description": "Prueba de impresión ELECTRONICA",
+      "identifier": "B001 - 00000071"
+    },
+    "customer": [
+      "ADQUIRIENTE",
+      "DNI: 20564379248",
+      "FASTWORKX SRL",
+      "AV CANADA N 159 ABANCAY ABANCAY APURIMAC"
+    ],
+    "additional": [
+      "FECHA EMISIÓN : 01/10/2019 14:51:26",
+      "MONEDA : SOLES",
+      "USUARIO : "
+    ],
+    "items": [
+      {
+        "description": [
+          "Ruta : ABANCAY-CHALHUANCA",
+          "Embarque : ABANCAY",
+          "Destino : CHALHUANCA",
+          "Asiento : 2",
+          "Pasajero : EMERSON ÑAHUINLLA VELASQUEZ",
+          "DNI : 70930383",
+          "F. Viaje : 01/10/2019 02:00 PM"
+        ],
+        "totalPrice": "9.00"
+      }
+    ],
+    "amounts": {
+      "Operacion no gravada": "9.00",
+      "IGV": 0,
+      "Total": "9.00"
+    },
+    "finalMessage": [
+      "REPRESENTACIÓN IMPRESA COMPROBANTE ELECTRÓNICO",
+      "PARA CONSULTAR EL DOCUMENTO VISITA NEXUS",
+      "HTTPS://NEXUS.FASTWORKX.COM/20450523381",
+      "RESUMEN: null",
+      "",
+      "POR FASTWORKX S.R.L. - PERÚ"
+    ],
+    "stringQR": "20450523381|03|B001 - 00000071|0|9.00|01/10/2019|6|[object Object]|"
+  }
+}

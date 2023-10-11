@@ -1,5 +1,7 @@
 package pe.puyu.service.trayicon;
 
+import java.io.IOException;
+
 import org.slf4j.LoggerFactory;
 
 import com.dustinredmond.fxtrayicon.FXTrayIcon;
@@ -23,6 +25,7 @@ public class PrintServiceTrayIcon {
   private BifrostService bifrostService;
   private MenuItem enableLogsMenuItem;
   private Stage parentStage;
+  private final Logger logger = (Logger) LoggerFactory.getLogger("pe.puyu.service.trayicon");
 
   public PrintServiceTrayIcon(BifrostService bifrostService) throws Exception {
     this.enableLogsMenuItem = new MenuItem("Activar Logs");
@@ -53,6 +56,7 @@ public class PrintServiceTrayIcon {
     trayIcon = new FXTrayIcon.Builder(parentStage, getClass().getResource("/assets/icon.png"))
         .menuItem("Portapapeles Logs", this::onClickCopyLogsDirectoryToClipboard)
         .menuItem(enableLogsMenuItem)
+        .menuItem("Pruebas de impresión", this::onClickMenuItemTestPrinter)
         .build();
   }
 
@@ -70,6 +74,18 @@ public class PrintServiceTrayIcon {
     var level = logsAreEnabled ? Level.INFO : Level.TRACE;
     enableLogsMenuItem.setText(menuItemText);
     rootLogger.setLevel(level);
+  }
+
+  private void onClickMenuItemTestPrinter(ActionEvent event) {
+    try {
+      var stage = new Stage();
+      Parent root = new FXMLLoader(getClass().getResource("/fxml/test-panel.fxml")).load();
+      stage.setScene(new Scene(root));
+      stage.setTitle("Pruebas de impresion PUKA");
+      stage.show();
+    } catch (IOException e) {
+      logger.error("Error al abrir stage test printer: {}", e.getMessage(), e);
+    }
   }
 
   private void onInfoMessageBifrost(String title, String message) {
