@@ -7,16 +7,16 @@
 
   <groupId>pe.puyu</groupId>
   <artifactId>puka</artifactId>
-  <version>0.1.0</version>
+  <version>${env.PROJECT_VERSION}</version>
 
   <name>puka</name>
   <url>https://github.com/puyu-pe/puka</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
-    <maven.compiler.release>17</maven.compiler.release>
+    <maven.compiler.source>${JAVA_VERSION}</maven.compiler.source>
+    <maven.compiler.target>${JAVA_VERSION}</maven.compiler.target>
+    <maven.compiler.release>${JAVA_VERSION}</maven.compiler.release>
   </properties>
 
   <dependencies>
@@ -104,18 +104,7 @@
 
   <build>
     <plugins>
-      <!-- <plugin> -->
-      <!--   <groupId>org.apache.maven.plugins</groupId> -->
-      <!--   <artifactId>maven-jar-plugin</artifactId> -->
-      <!--   <version>3.3.0</version> -->
-      <!--   <configuration> -->
-      <!--     <archive> -->
-      <!--       <manifest> -->
-      <!--         <mainClass>pe.puyu.AppLauncher</mainClass> -->
-      <!--       </manifest> -->
-      <!--     </archive> -->
-      <!--   </configuration> -->
-      <!-- </plugin> -->
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
