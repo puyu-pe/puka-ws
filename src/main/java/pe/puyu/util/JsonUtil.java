@@ -1,10 +1,11 @@
 package pe.puyu.util;
 
+import java.io.BufferedReader;
 import java.io.FileWriter;
-import java.net.URI;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
@@ -46,7 +47,15 @@ public class JsonUtil {
   }
 
   public static JSONObject getJsonFrom(URL jsonURL) throws Exception {
-    var json = new String(Files.readAllBytes(Path.of(jsonURL.toURI())));
+    InputStream is = jsonURL.openStream();
+    BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+    String line = buf.readLine();
+    StringBuilder sb = new StringBuilder();
+    while(line != null){
+        sb.append(line).append("\n");
+        line = buf.readLine();
+    }
+    String json = sb.toString();
     return new JSONObject(json);
   }
 }
