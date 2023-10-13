@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # ------ ENVIRONMENT --------------------------------------------------------
 # The script depends on various environment variables to exist in order to
 # run properly. The java version we want to use, the location of the java
@@ -9,10 +8,8 @@
 # PROJECT_VERSION: version used in pom.xml, e.g. 1.0-SNAPSHOT
 # APP_VERSION: the application version, e.g. 1.0.0, shown in "about" dialog
 
-JAVA_VERSION=17
-PROJECT_VERSION=0.1.0
-APP_VERSION=0.1.0
-MAIN_JAR="puka-0.1.0.jar"
+# export $(cat .env | xargs)
+MAIN_JAR="puka-${PROJECT_VERSION}.jar"
 
 # Set desired installer type: "app-image", "rpm" or "deb".
 INSTALLER_TYPE=app-image
@@ -62,7 +59,7 @@ echo "detected modules: ${detected_modules}"
 #
 # Don't forget the leading ','!
 
-manual_modules=,jdk.crypto.ec
+manual_modules=,jdk.crypto.ec,jdk.zipfs,jdk.charsets
 
 echo "manual modules: ${manual_modules}"
 

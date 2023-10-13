@@ -2,8 +2,8 @@ package pe.puyu.util;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.util.Optional;
 
@@ -51,16 +51,17 @@ public class PukaUtil {
   }
 
   public static String getLogsDirectory() {
-    return Path.of(System.getProperty("java.io.tmpdir"),"puyu").toString();
+    return Path.of(System.getProperty("java.io.tmpdir"), "puyu").toString();
   }
 
   public static String getPukaVersion() {
     try {
-      BufferedReader reader = new BufferedReader(new FileReader("./VERSION"));
+      var resourceUrl = PukaUtil.class.getResource("/VERSION");
+      BufferedReader reader = new BufferedReader(new InputStreamReader(resourceUrl.openStream()));
       String version = reader.readLine();
       reader.close();
       return version;
-    } catch (IOException e) {
+    } catch (Exception e) {
       return "0.1.0";
     }
   }
