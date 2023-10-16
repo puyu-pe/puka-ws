@@ -1,0 +1,24 @@
+{
+  "type": "command",
+  "times": 1,
+  "data": {
+    "business": {
+      "description": "PUYU SRL"
+    },
+    "productionArea": "Pizzeria Horno",
+    "document": {
+      "description": "N°",
+      "identifier": "71"
+    },
+    "items": [
+      {
+        "quantity": 1,
+        "description": "ARROZ CON LANGOSTINOS",
+        "commentary": "acevichado, picante, limpio, con mucho arroz"
+      }
+    ],
+    "finalMessage": [
+      "01:43:10 - 10/07/2023"
+    ]
+  }
+}

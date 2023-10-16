@@ -3,7 +3,7 @@ package pe.puyu.model.sections;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -61,9 +61,13 @@ public class PrintTestSection {
   }
 
   public static Map<String, String> getTypeDocumentsMap() {
-    var map = new HashMap<String, String>();
-    map.put("BOLETA", "boleta.json");
-    map.put("COMANDA RESTAURANTE", "comanda_restaurante.json");
+    var map = new LinkedHashMap<String, String>();
+    map.put("COMANDA - SIMPLE", "comanda_simple.json");
+    map.put("COMANDA - ADICIONAL", "comanda_adicional.json");
+    map.put("ANULACION - SIMPLE", "anulacion_simple.json");
+    map.put("ANULACION - ADICIONAL", "anulacion_adicional.json");
+    map.put("BOLETA RESTAURANTE", "boleta_restaurante.json");
+    map.put("BOLETA TRANSPORTE", "boleta_transporte.json");
     map.put("ENCOMIENDA", "encomienda.json");
     map.put("EXTRA RESTAURANTE", "extra_restaurante.json");
     map.put("EXTRAS", "extras.json");
