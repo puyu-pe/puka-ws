@@ -14,24 +14,21 @@ public class SweetTicketPrinter {
   private Runnable onSuccess;
   private Consumer<String> onError;
 
-  private JSONObject ticket = new JSONObject();
   private JSONObject printerInfo = new JSONObject();
-  private JSONObject data = new JSONObject();
-  private JSONObject metadata = new JSONObject();
+  private JSONObject ticket = new JSONObject();
 
-  public SweetTicketPrinter(JSONObject data) {
-    this.data = data;
-    this.ticket = data.getJSONObject("data");
-    this.printerInfo = data.getJSONObject("printer");
+  public SweetTicketPrinter(JSONObject ticket) {
+    this.ticket = ticket;
+    this.printerInfo = ticket.getJSONObject("printer");
     this.onSuccess = () -> System.out.println("on success not implemented: SweetTicketPrinter");
     this.onError = (error) -> System.out.println(error);
   }
 
   public void printTicket() {
     try {
-      loadMetadata();
       var outputStream = getOutputStreamByPrinterType();
-      outputStream.write(new SweetTicketDesing(ticket, metadata).getBytes());
+      loadMetadata();
+      outputStream.write(new SweetTicketDesing(ticket).getBytes());
       outputStream.close();
       onSuccess.run();
     } catch (Exception e) {
@@ -50,31 +47,19 @@ public class SweetTicketPrinter {
   }
 
   private void loadMetadata() throws Exception {
-    this.metadata.put("typeTicket", data.getString("type"));
-    this.metadata.put("times", data.getInt("times"));
-    if (printerInfo.has("width")) {
-      this.metadata.put("maxTicketWidth", printerInfo.getInt("width"));
+    var metadata = new JSONObject();
+    if (ticket.has("metadata") && !ticket.isNull("metadata")) {
+      metadata = ticket.getJSONObject("metadata");
     }
     var userConfig = JsonUtil.convertFromJson(PukaUtil.getUserConfigFileDir(), UserConfig.class);
-    if (userConfig.isPresent()) {
+    if ((!metadata.has("logoPath") || metadata.isNull("logoPath")) && userConfig.isPresent()) {
       metadata.put("logoPath", userConfig.get().getLogoPath());
-    }
-    if (printerInfo.has("backgroundInverted") && !printerInfo.isNull("backgroundInverted")) {
-      metadata.put("backgroundInverted", printerInfo.getBoolean("backgroundInverted"));
-    }
-    if (printerInfo.has("nativeQR") && !printerInfo.isNull("nativeQR")) {
-      metadata.put("nativeQR", printerInfo.getBoolean("nativeQR"));
-    }
-    if (printerInfo.has("charCodeTable") && !printerInfo.isNull("charCodeTable")) {
-      metadata.put("charCodeTable", printerInfo.getString("charCodeTable"));
-    }
-    if (printerInfo.has("charSetName") && !printerInfo.isNull("charSetName")) {
-      metadata.put("charSetName", printerInfo.getString("charSetName"));
+      ticket.put("metadata", metadata);
     }
   }
 
   private OutputStream getOutputStreamByPrinterType() throws Exception {
-    if(this.printerInfo.isNull("name_system"))
+    if (this.printerInfo.isNull("name_system"))
       throw new Exception("name_system esta vacio");
     var name_system = this.printerInfo.getString("name_system");
     var port = this.printerInfo.getInt("port");

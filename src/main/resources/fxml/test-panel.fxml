@@ -94,14 +94,9 @@
                               <Label styleClass="subtitle" text="Compatibilidad:" />
                               <CheckBox fx:id="checkBoxInvertedText" maxWidth="1.7976931348623157E308" mnemonicParsing="false" selected="true" text="Soporte fondo Invertido" />
                               <CheckBox fx:id="checkBoxNativeQR" maxWidth="1.7976931348623157E308" mnemonicParsing="false" selected="true" text="QR Nativo" />
+                              <CheckBox fx:id="checkBoxNormalize" mnemonicParsing="false" text="Normalizar Texto" />
                               <CheckBox fx:id="checkBoxCharCodeTable" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onClickCheckBoxCharCodeTable" text="CharCodeTable" />
                               <ComboBox fx:id="cmbCharCodeTable" disable="true" maxWidth="1.7976931348623157E308" prefWidth="150.0">
-                                 <VBox.margin>
-                                    <Insets left="15.0" />
-                                 </VBox.margin>
-                              </ComboBox>
-                              <CheckBox fx:id="checkBoxCharSetName" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onClickCheckBoxCharSetName" text="CharSetName" />
-                              <ComboBox fx:id="cmbCharSetName" disable="true" maxWidth="1.7976931348623157E308" prefWidth="150.0">
                                  <VBox.margin>
                                     <Insets left="15.0" />
                                  </VBox.margin>

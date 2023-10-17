@@ -1,7 +1,6 @@
 package pe.puyu.model.sections;
 
 import java.io.ByteArrayOutputStream;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -15,7 +14,7 @@ import com.github.anastaciocintra.escpos.EscPos;
 import com.github.anastaciocintra.escpos.EscPos.CharacterCodeTable;
 import com.github.anastaciocintra.output.PrinterOutputStream;
 
-import pe.puyu.model.beans.PrinterTestInfo;
+import pe.puyu.model.beans.TicketInfo;
 import pe.puyu.service.printer.Printer;
 import pe.puyu.util.JsonUtil;
 
@@ -39,15 +38,6 @@ public class PrintTestSection {
     var charCodeTableList = CharacterCodeTable.values();
     for (var item : charCodeTableList) {
       list.add(item.toString());
-    }
-    return list;
-  }
-
-  public static List<String> getCharSetNameList() {
-    var list = new LinkedList<String>();
-    var charsets = Charset.availableCharsets().keySet();
-    for (var charset : charsets) {
-      list.add(charset);
     }
     return list;
   }
@@ -78,7 +68,7 @@ public class PrintTestSection {
   public static JSONObject getTicketByTypeDocument(String typeDocument) throws Exception {
     var typeDocumentList = getTypeDocumentsMap();
     var pathToJson = "/testPrinter/" + typeDocumentList.get(typeDocument);
-    var jsonURL = PrinterTestInfo.class.getResource(pathToJson);
+    var jsonURL = TicketInfo.class.getResource(pathToJson);
     return JsonUtil.getJsonFrom(jsonURL);
   }
 
