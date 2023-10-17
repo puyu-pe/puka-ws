@@ -26,7 +26,7 @@ public class PukaUtil {
 
   public static String getUserDataDir() {
     AppDirs appDirs = AppDirsFactory.getInstance();
-    String userDataDir = appDirs.getUserDataDir("puka", "0.1.0", "puyu");
+    String userDataDir = appDirs.getUserDataDir("puka", PukaUtil.getPukaVersion(), "puyu");
     File file = new File(userDataDir);
     if (!file.exists()) {
       file.mkdirs();
