@@ -55,6 +55,7 @@ public class PrintServiceTrayIcon {
   private void loadTrayIcon() {
     trayIcon = new FXTrayIcon.Builder(parentStage, getClass().getResource("/assets/icon.png"))
         .menuItem("Portapapeles Logs", this::onClickCopyLogsDirectoryToClipboard)
+        .menuItem("Portapapeles bifrost config", this::onClickCopyUserDirectoryToClipboard)
         .menuItem(enableLogsMenuItem)
         .menuItem("Pruebas de impresión", this::onClickMenuItemTestPrinter)
         .build();
@@ -64,6 +65,13 @@ public class PrintServiceTrayIcon {
     Clipboard clipboard = Clipboard.getSystemClipboard();
     ClipboardContent content = new ClipboardContent();
     content.putString(PukaUtil.getLogsDirectory());
+    clipboard.setContent(content);
+  }
+
+  private void onClickCopyUserDirectoryToClipboard(ActionEvent event) {
+    Clipboard clipboard = Clipboard.getSystemClipboard();
+    ClipboardContent content = new ClipboardContent();
+    content.putString(PukaUtil.getUserDataDir());
     clipboard.setContent(content);
   }
 

@@ -1,9 +1,8 @@
 package pe.puyu.model.sections;
 
 import java.io.ByteArrayOutputStream;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +14,7 @@ import com.github.anastaciocintra.escpos.EscPos;
 import com.github.anastaciocintra.escpos.EscPos.CharacterCodeTable;
 import com.github.anastaciocintra.output.PrinterOutputStream;
 
-import pe.puyu.model.beans.PrinterTestInfo;
+import pe.puyu.model.beans.TicketInfo;
 import pe.puyu.service.printer.Printer;
 import pe.puyu.util.JsonUtil;
 
@@ -43,15 +42,6 @@ public class PrintTestSection {
     return list;
   }
 
-  public static List<String> getCharSetNameList() {
-    var list = new LinkedList<String>();
-    var charsets = Charset.availableCharsets().keySet();
-    for (var charset : charsets) {
-      list.add(charset);
-    }
-    return list;
-  }
-
   public static byte[] customDesing(Consumer<EscPos> consumer) throws Exception {
     var buffer = new ByteArrayOutputStream();
     EscPos escPos = new EscPos(buffer);
@@ -61,9 +51,13 @@ public class PrintTestSection {
   }
 
   public static Map<String, String> getTypeDocumentsMap() {
-    var map = new HashMap<String, String>();
-    map.put("BOLETA", "boleta.json");
-    map.put("COMANDA RESTAURANTE", "comanda_restaurante.json");
+    var map = new LinkedHashMap<String, String>();
+    map.put("COMANDA - SIMPLE", "comanda_simple.json");
+    map.put("COMANDA - ADICIONAL", "comanda_adicional.json");
+    map.put("ANULACION - SIMPLE", "anulacion_simple.json");
+    map.put("ANULACION - ADICIONAL", "anulacion_adicional.json");
+    map.put("BOLETA RESTAURANTE", "boleta_restaurante.json");
+    map.put("BOLETA TRANSPORTE", "boleta_transporte.json");
     map.put("ENCOMIENDA", "encomienda.json");
     map.put("EXTRA RESTAURANTE", "extra_restaurante.json");
     map.put("EXTRAS", "extras.json");
@@ -74,7 +68,7 @@ public class PrintTestSection {
   public static JSONObject getTicketByTypeDocument(String typeDocument) throws Exception {
     var typeDocumentList = getTypeDocumentsMap();
     var pathToJson = "/testPrinter/" + typeDocumentList.get(typeDocument);
-    var jsonURL = PrinterTestInfo.class.getResource(pathToJson);
+    var jsonURL = TicketInfo.class.getResource(pathToJson);
     return JsonUtil.getJsonFrom(jsonURL);
   }
 

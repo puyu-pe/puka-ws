@@ -6,26 +6,27 @@
       "description": "PUYU SRL"
     },
     "productionArea": "Pizzeria Horno",
-    "textBackgroundInverted": "ANULACION",
     "document": {
-      "description": "COMANDA : ",
+      "description": "N°",
       "identifier": "71"
     },
     "additional": [
-      "FECHA EMISIÓN : 01/10/2019 14:51:26",
       "Mesero(a) : Luis",
       "Mesa : Delivery"
     ],
     "items": [
       {
         "quantity": 1,
-        "description": "HAWAYANA (FAMILIAR)",
-        "commentary": "con arto queso"
+        "description": "ARROZ CON LANGOSTINOS",
+        "commentary": "acevichado, picante, limpio, con mucho arroz"
       },
       {
         "quantity": 1,
         "description": "HAWAYANA (PERSONAL)"
       }
+    ],
+    "finalMessage": [
+      "01:43:10 - 10/07/2023"
     ]
   }
 }

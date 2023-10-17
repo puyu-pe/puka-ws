@@ -26,7 +26,8 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import pe.puyu.model.beans.PrinterTestInfo;
+import pe.puyu.model.beans.PrinterConnection;
+import pe.puyu.model.beans.TicketInfo;
 import pe.puyu.model.sections.PrintTestSection;
 import pe.puyu.service.printer.Printer;
 import pe.puyu.service.printer.SweetTicketPrinter;
@@ -35,11 +36,12 @@ import pe.puyu.util.PukaUtil;
 
 public class TestPanelController implements Initializable {
   private final Logger logger = (Logger) LoggerFactory.getLogger("pe.puyu.controller.testpanel");
-  private final PrinterTestInfo printerInfo = new PrinterTestInfo();
+  private final TicketInfo ticketInfo = new TicketInfo();
+  private final PrinterConnection printerConnection = new PrinterConnection();
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    printerInfo.widthProperty().bind(Bindings.createIntegerBinding(() -> {
+    ticketInfo.widthProperty().bind(Bindings.createIntegerBinding(() -> {
       try {
         return Integer.parseInt(txtCharacterPerLine.getText());
       } catch (Exception e) {
@@ -47,7 +49,7 @@ public class TestPanelController implements Initializable {
       }
     }, txtCharacterPerLine.textProperty()));
 
-    printerInfo.portProperty().bind(Bindings.createIntegerBinding(() -> {
+    printerConnection.portProperty().bind(Bindings.createIntegerBinding(() -> {
       try {
         return Integer.parseInt(txtPort.getText());
       } catch (Exception e) {
@@ -55,26 +57,20 @@ public class TestPanelController implements Initializable {
       }
     }, txtPort.textProperty()));
 
-    printerInfo.charSetNameProperty().bind(Bindings.createStringBinding(() -> {
-      if (checkBoxCharSetName.isSelected())
-        return cmbCharSetName.getValue();
-      return null;
-    }, cmbCharSetName.valueProperty(), checkBoxCharSetName.selectedProperty()));
-
-    printerInfo.charCodeTableProperty().bind(Bindings.createStringBinding(() -> {
+    ticketInfo.charCodeTableProperty().bind(Bindings.createStringBinding(() -> {
       if (checkBoxCharCodeTable.isSelected())
         return cmbCharCodeTable.getValue();
       return null;
     }, cmbCharCodeTable.valueProperty(), checkBoxCharCodeTable.selectedProperty()));
 
-    printerInfo.nativeQRProperty().bind(checkBoxNativeQR.selectedProperty());
-    printerInfo.backgroundInvertedProperty().bind(checkBoxInvertedText.selectedProperty());
-    printerInfo.name_systemProperty().bind(cmbPrintService.valueProperty());
-    printerInfo.typeProperty().bind(cmbTypeConnection.valueProperty());
+    ticketInfo.nativeQRProperty().bind(checkBoxNativeQR.selectedProperty());
+    ticketInfo.backgroundInvertedProperty().bind(checkBoxInvertedText.selectedProperty());
+    ticketInfo.textNormalize().bind(checkBoxNormalize.selectedProperty());
+    printerConnection.name_systemProperty().bind(cmbPrintService.valueProperty());
+    printerConnection.typeProperty().bind(cmbTypeConnection.valueProperty());
     reloadPrintServices();
     initTypesConnectionList();
     initCharCodeTableList();
-    initCharSetNameList();
     initTypeDocumentList();
     initDefaultValues();
   }
@@ -111,8 +107,8 @@ public class TestPanelController implements Initializable {
         });
         outputStream.write(bytes);
         outputStream.close();
-        cmbPrintService.getItems().removeIf(item -> item.equalsIgnoreCase(printerInfo.getName_system()));
-        cmbPrintService.getItems().add(printerInfo.getName_system());
+        cmbPrintService.getItems().removeIf(item -> item.equalsIgnoreCase(printerConnection.getName_system()));
+        cmbPrintService.getItems().add(printerConnection.getName_system());
         showMessageAreaError("La prueba no lanzo ninguna excepcion.", "info");
       } catch (Exception e) {
         showMessageAreaError(e.getMessage(), "error");
@@ -131,21 +127,14 @@ public class TestPanelController implements Initializable {
   }
 
   @FXML
-  void onClickCheckBoxCharSetName(ActionEvent event) {
-    if (checkBoxCharSetName.isSelected()) {
-      cmbCharSetName.setDisable(false);
-    } else {
-      cmbCharSetName.setDisable(true);
-    }
-  }
-
-  @FXML
   void onClickBtnPrint(ActionEvent event) {
     CompletableFuture.runAsync(() -> {
       try {
         var ticket = PrintTestSection.getTicketByTypeDocument(cmbTypeDocument.getValue());
-        var printer = JsonUtil.toJSONObject(printerInfo);
+        var printer = JsonUtil.toJSONObject(printerConnection);
+        var properties = JsonUtil.toJSONObject(ticketInfo);
         ticket.put("printer", printer);
+        ticket.getJSONObject("printer").put("properties", properties);
         if (checkBoxLogo.isSelected()) {
           PrintTestSection.addLogoToTicket(ticket);
         }
@@ -161,8 +150,8 @@ public class TestPanelController implements Initializable {
               showMessageAreaError(error, "error");
             })
             .printTicket();
-        cmbPrintService.getItems().removeIf(item -> item.equalsIgnoreCase(printerInfo.getName_system()));
-        cmbPrintService.getItems().add(printerInfo.getName_system());
+        cmbPrintService.getItems().removeIf(item -> item.equalsIgnoreCase(printerConnection.getName_system()));
+        cmbPrintService.getItems().add(printerConnection.getName_system());
       } catch (Exception e) {
         showMessageAreaError(e.getMessage(), "error");
         logger.error("Excepcion al imprimir, pruebas avanzadas: {}", e.getMessage(), e);
@@ -207,12 +196,6 @@ public class TestPanelController implements Initializable {
     cmbCharCodeTable.setValue(charCodeTableList.get(0));
   }
 
-  private void initCharSetNameList() {
-    var charSetNameList = PrintTestSection.getCharSetNameList();
-    cmbCharSetName.getItems().addAll(charSetNameList);
-    cmbCharSetName.setValue(charSetNameList.get(0));
-  }
-
   private void initTypeDocumentList() {
     var typeDocumentList = PrintTestSection.getTypeDocumentsMap().keySet();
     cmbTypeDocument.getItems().addAll(typeDocumentList);
@@ -225,7 +208,7 @@ public class TestPanelController implements Initializable {
     checkBoxInvertedText.setSelected(true);
     checkBoxNativeQR.setSelected(true);
     checkBoxCharCodeTable.setSelected(false);
-    checkBoxCharSetName.setSelected(false);
+    checkBoxNormalize.setSelected(false);
   }
 
   private void showMessageAreaError(String message, String type) {
@@ -254,9 +237,6 @@ public class TestPanelController implements Initializable {
   private CheckBox checkBoxCharCodeTable;
 
   @FXML
-  private CheckBox checkBoxCharSetName;
-
-  @FXML
   private CheckBox checkBoxInvertedText;
 
   @FXML
@@ -270,9 +250,6 @@ public class TestPanelController implements Initializable {
 
   @FXML
   private ComboBox<String> cmbCharCodeTable;
-
-  @FXML
-  private ComboBox<String> cmbCharSetName;
 
   @FXML
   private ComboBox<String> cmbPrintService;
@@ -297,4 +274,7 @@ public class TestPanelController implements Initializable {
 
   @FXML
   private TabPane root;
+
+  @FXML
+  private CheckBox checkBoxNormalize;
 }

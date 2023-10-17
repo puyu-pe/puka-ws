@@ -1,0 +1,64 @@
+{
+  "type": "invoice",
+  "times": 1,
+  "data": {
+    "business": {
+      "comercialDescription": {
+        "type": "text",
+        "value": "PUYU SRL"
+      },
+      "description": "De: Max Saenz Cardenas",
+      "additional": [
+        "RUC 10412443361 JR. LIMA Nº 101",
+        "ABANCAY - ABANCAY - APÚRIMAC",
+        "TEL : 083323805  CEL. 983960230"
+      ]
+    },
+    "document": {
+      "description": "BOLETA ELECTRÓNICA",
+      "identifier": "B001-31237"
+    },
+    "customer": [
+      "ADQUIRIENTE",
+      "DNI: -",
+      "clientes varios",
+      ""
+    ],
+    "additional": [
+      "FECHA EMISION : 16-08-2023 21:25:40",
+      "MONEDA : PEN",
+      "IGV : 10.00"
+    ],
+    "items": [
+      {
+        "quantity": "1",
+        "description": "FETUCCINI AL ALFREDO fjsalfjsdlfjslkdf sfjsdlfjssdf fasdfsdfasdwee",
+        "totalPrice": 17
+      },
+      {
+        "quantity": "1",
+        "description": "FETUCCINI A LA NAPOLITANA",
+        "totalPrice": 16
+      }
+    ],
+    "amounts": {
+      "TOTAL": "33.00",
+      "CASH": "50.00",
+      "VUELTO": "17.00"
+    },
+    "additionalFooter": [
+      "FORMA DE PAGO : EFECTIVO",
+      "CAJA : eraides - CAJA 01",
+      "MESA : 01"
+    ],
+    "finalMessage": [
+      "REPRESENTACIÓN IMPRESA DE DOC ELECTRÓNICO",
+      "PARA CONSULTAR EL DOCUMENTO VISITA NEXUS:",
+      "HTTPS://NEXUS.PUYU.PE/10412443361",
+      "RESUMEN: XyRO1mV1SREVZSPV3T5n0riGMWw=",
+      "",
+      "POR PUYU.PE - PERÚ"
+    ],
+    "stringQR": "10412443361|03|B001|31237|3.00|33.00|16-08-2023|1|-|XyRO1mV1SREVZSPV3T5n0riGMWw="
+  }
+}
