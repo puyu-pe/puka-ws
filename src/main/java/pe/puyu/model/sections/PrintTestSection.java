@@ -1,6 +1,7 @@
 package pe.puyu.model.sections;
 
 import java.io.ByteArrayOutputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -29,6 +30,15 @@ public class PrintTestSection {
     var list = new ArrayList<String>();
     for (var type : types) {
       list.add(type.getValue());
+    }
+    return list;
+  }
+
+  public static List<String> getCharSetNameList() {
+    var list = new LinkedList<String>();
+    var charsets = Charset.availableCharsets().keySet();
+    for (var charset : charsets) {
+      list.add(charset);
     }
     return list;
   }

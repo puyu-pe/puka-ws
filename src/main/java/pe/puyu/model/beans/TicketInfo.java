@@ -12,14 +12,18 @@ public class TicketInfo {
   private BooleanProperty nativeQR;
   private BooleanProperty textNormalize;
   private StringProperty charCodeTable;
+  private StringProperty charSetname;
   private IntegerProperty width;
+  private IntegerProperty fontSizeCommand;
 
   public TicketInfo() {
     backgroundInverted = new SimpleBooleanProperty();
     nativeQR = new SimpleBooleanProperty();
     textNormalize = new SimpleBooleanProperty();
     charCodeTable = new SimpleStringProperty();
+    charSetname = new SimpleStringProperty();
     width = new SimpleIntegerProperty();
+    fontSizeCommand = new SimpleIntegerProperty();
   }
 
   public void setBackgroundInverted(boolean backgroundInverted) {
@@ -54,7 +58,7 @@ public class TicketInfo {
     return textNormalize.get();
   }
 
-  public BooleanProperty textNormalize() {
+  public BooleanProperty textNormalizeProperty() {
     return textNormalize;
   }
 
@@ -70,6 +74,18 @@ public class TicketInfo {
     return charCodeTable;
   }
 
+  public void setCharSetName(String charSetName) {
+    this.charSetname.set(charSetName);
+  }
+
+  public String getCharSetName() {
+    return charSetname.get();
+  }
+
+  public StringProperty charSetNameProperty() {
+    return charSetname;
+  }
+
   public void setWidth(int width) {
     this.width.set(width);
   }
@@ -80,6 +96,18 @@ public class TicketInfo {
 
   public IntegerProperty widthProperty() {
     return width;
+  }
+
+  public void setFontSizeCommand(int fontsize) {
+    this.fontSizeCommand.set(fontsize);
+  }
+
+  public int getFonSizeCommand() {
+    return fontSizeCommand.get();
+  }
+
+  public IntegerProperty fontSizeCommandProperty() {
+    return fontSizeCommand;
   }
 
 }
