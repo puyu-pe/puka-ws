@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture;
 
 import org.slf4j.LoggerFactory;
 
+import com.github.anastaciocintra.escpos.EscPos.CharacterCodeTable;
 import com.github.anastaciocintra.escpos.EscPos.CutMode;
 import com.github.anastaciocintra.escpos.EscPosConst.Justification;
 import com.github.anastaciocintra.escpos.Style.FontSize;
@@ -71,12 +72,6 @@ public class TestPanelController implements Initializable {
       return null;
     }, cmbCharCodeTable.valueProperty(), checkBoxCharCodeTable.selectedProperty()));
 
-    ticketInfo.charSetNameProperty().bind(Bindings.createStringBinding(() -> {
-      if (checkBoxCharSetName.isSelected())
-        return cmbCharSetName.getValue();
-      return null;
-    }, cmbCharSetName.valueProperty(), checkBoxCharSetName.selectedProperty()));
-
     ticketInfo.nativeQRProperty().bind(checkBoxNativeQR.selectedProperty());
     ticketInfo.backgroundInvertedProperty().bind(checkBoxInvertedText.selectedProperty());
     ticketInfo.textNormalizeProperty().bind(checkBoxNormalize.selectedProperty());
@@ -85,7 +80,6 @@ public class TestPanelController implements Initializable {
     reloadPrintServices();
     initTypesConnectionList();
     initCharCodeTableList();
-    initCharSetNameList();
     initTypeDocumentList();
     initDefaultValues();
   }
@@ -98,20 +92,21 @@ public class TestPanelController implements Initializable {
         var port = Integer.parseInt(txtPort.getText());
         var type = cmbTypeConnection.getValue();
         var outputStream = Printer.getOutputStreamFor(name_system, port, type);
-        Printer.setOnUncaughtExceptionFor(outputStream, (error) -> {
-          showMessageAreaError(error, "error");
+        Printer.setOnUncaughtExceptionFor(outputStream, (t,e) -> {
+          showMessageAreaError(e.getMessage(), "error");
         });
         var bytes = PrintTestSection.customDesing(escpos -> {
           try {
             escpos.getStyle().setBold(true).setFontSize(FontSize._2, FontSize._2)
                 .setJustification(Justification.Center);
+						escpos.setCharacterCodeTable(CharacterCodeTable.WPC1252);
             escpos.writeLF("-- PUYU - PUKA --");
             escpos.getStyle().setFontSize(FontSize._1, FontSize._1);
-            escpos.writeLF("Esta es una prueba de impresion");
+            escpos.writeLF("Esta es una prueba de impresión");
             escpos.getStyle().reset();
             escpos.writeLF(String.format("name_system: %s", name_system));
-            escpos.writeLF(String.format("port: %s", type));
-            escpos.writeLF(String.format("type: %s", port));
+            escpos.writeLF(String.format("port: %s", port));
+            escpos.writeLF(String.format("type: %s", type));
             escpos.getStyle().setJustification(Justification.Center);
             escpos.writeLF("Gracias, que tenga un buen dia.");
             escpos.feed(4);
@@ -138,15 +133,6 @@ public class TestPanelController implements Initializable {
       cmbCharCodeTable.setDisable(false);
     } else {
       cmbCharCodeTable.setDisable(true);
-    }
-  }
-
-  @FXML
-  void onClickCheckBoxCharSetName(ActionEvent event) {
-    if (checkBoxCharSetName.isSelected()) {
-      cmbCharSetName.setDisable(false);
-    } else {
-      cmbCharSetName.setDisable(true);
     }
   }
 
@@ -226,12 +212,6 @@ public class TestPanelController implements Initializable {
     cmbTypeDocument.setValue(typeDocumentList.stream().findFirst().get());
   }
 
-  private void initCharSetNameList() {
-    var charSetNameList = PrintTestSection.getCharSetNameList();
-    cmbCharSetName.getItems().addAll(charSetNameList);
-    cmbCharSetName.setValue(charSetNameList.get(0));
-  }
-
   private void initDefaultValues() {
     txtPort.setText("9100");
     txtCharacterPerLine.setText("42");
@@ -239,7 +219,6 @@ public class TestPanelController implements Initializable {
     checkBoxNativeQR.setSelected(true);
     checkBoxCharCodeTable.setSelected(false);
     checkBoxNormalize.setSelected(false);
-    checkBoxCharSetName.setSelected(false);
   }
 
   private void showMessageAreaError(String message, String type) {
@@ -308,12 +287,6 @@ public class TestPanelController implements Initializable {
 
   @FXML
   private CheckBox checkBoxNormalize;
-
-  @FXML
-  private CheckBox checkBoxCharSetName;
-
-  @FXML
-  private ComboBox<String> cmbCharSetName;
 
   @FXML
   private TextField txtFontSizeCommand;

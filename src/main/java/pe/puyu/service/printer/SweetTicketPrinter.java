@@ -65,14 +65,18 @@ public class SweetTicketPrinter {
     var port = this.printerInfo.getInt("port");
     var outputStream = Printer.getOutputStreamFor(name_system, port, this.printerInfo.getString("type"));
     Printer.setOnUncaughtExceptionFor(outputStream,
-        error -> onError.accept(makeErrorMessageForException(new Exception(error))));
+        (t, e) -> onError.accept(makeErrorMessageForException(e.getMessage())));
     return outputStream;
   }
 
-  private String makeErrorMessageForException(Exception e) {
+	private String makeErrorMessageForException(String error){
     return String.format("Error al imprimir un ticket, name_system: %s, port: %d, type: %s, mensaje error: %s",
         printerInfo.getString("name_system"), printerInfo.getInt("port"), printerInfo.getString("type"),
-        e.getMessage());
+        error);
+	}
+
+  private String makeErrorMessageForException(Exception e) {
+		return makeErrorMessageForException(e.getMessage());
   }
 
 }

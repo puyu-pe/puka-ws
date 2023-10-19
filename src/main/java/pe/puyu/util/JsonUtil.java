@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -48,7 +49,7 @@ public class JsonUtil {
 
   public static JSONObject getJsonFrom(URL jsonURL) throws Exception {
     InputStream is = jsonURL.openStream();
-    BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+    BufferedReader buf = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
     String line = buf.readLine();
     StringBuilder sb = new StringBuilder();
     while(line != null){

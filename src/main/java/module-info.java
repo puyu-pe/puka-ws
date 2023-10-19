@@ -22,8 +22,10 @@ module pe.puyu.puka {
   requires org.hildan.fxgson;
   opens pe.puyu.model.beans to com.google.gson, org.hildan.fxgson;
 
-
   requires net.harawata.appdirs;
+
+	// serial modules
+	requires com.fazecast.jSerialComm; 
 
   //JTicketDesing
   requires pe.puyu.jticketdesing;

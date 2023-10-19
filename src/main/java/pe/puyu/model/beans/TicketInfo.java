@@ -12,7 +12,6 @@ public class TicketInfo {
   private BooleanProperty nativeQR;
   private BooleanProperty textNormalize;
   private StringProperty charCodeTable;
-  private StringProperty charSetname;
   private IntegerProperty width;
   private IntegerProperty fontSizeCommand;
 
@@ -21,7 +20,6 @@ public class TicketInfo {
     nativeQR = new SimpleBooleanProperty();
     textNormalize = new SimpleBooleanProperty();
     charCodeTable = new SimpleStringProperty();
-    charSetname = new SimpleStringProperty();
     width = new SimpleIntegerProperty();
     fontSizeCommand = new SimpleIntegerProperty();
   }
@@ -72,18 +70,6 @@ public class TicketInfo {
 
   public StringProperty charCodeTableProperty() {
     return charCodeTable;
-  }
-
-  public void setCharSetName(String charSetName) {
-    this.charSetname.set(charSetName);
-  }
-
-  public String getCharSetName() {
-    return charSetname.get();
-  }
-
-  public StringProperty charSetNameProperty() {
-    return charSetname;
   }
 
   public void setWidth(int width) {

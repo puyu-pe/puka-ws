@@ -25,12 +25,14 @@ public class PrintServiceTrayIcon {
   private BifrostService bifrostService;
   private MenuItem enableLogsMenuItem;
   private Stage parentStage;
+	private Stage testPanelStage;
   private final Logger logger = (Logger) LoggerFactory.getLogger("pe.puyu.service.trayicon");
 
   public PrintServiceTrayIcon(BifrostService bifrostService) throws Exception {
     this.enableLogsMenuItem = new MenuItem("Activar Logs");
     this.enableLogsMenuItem.setOnAction(this::onClickEnableLogs);
     this.bifrostService = bifrostService;
+		this.testPanelStage = new Stage();
     loadStage();
     loadTrayIcon();
     this.bifrostService.setListenerInfoNotification(this::onInfoMessageBifrost);
@@ -86,11 +88,10 @@ public class PrintServiceTrayIcon {
 
   private void onClickMenuItemTestPrinter(ActionEvent event) {
     try {
-      var stage = new Stage();
       Parent root = new FXMLLoader(getClass().getResource("/fxml/test-panel.fxml")).load();
-      stage.setScene(new Scene(root));
-      stage.setTitle("Pruebas de impresion PUKA");
-      stage.show();
+      testPanelStage.setScene(new Scene(root));
+      testPanelStage.setTitle("Pruebas de impresion PUKA");
+      testPanelStage.show();
     } catch (IOException e) {
       logger.error("Error al abrir stage test printer: {}", e.getMessage(), e);
     }

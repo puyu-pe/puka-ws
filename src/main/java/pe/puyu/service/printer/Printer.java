@@ -2,7 +2,6 @@ package pe.puyu.service.printer;
 
 import java.io.OutputStream;
 import java.lang.Thread.UncaughtExceptionHandler;
-import java.util.function.Consumer;
 
 import com.github.anastaciocintra.output.PrinterOutputStream;
 import com.github.anastaciocintra.output.TcpIpOutputStream;
@@ -15,6 +14,7 @@ public class Printer {
     SAMBA("samba"),
     SERIAL("serial"),
     CUPS("cups"),
+    SMBFILE("smbfile"),
     ETHERNET("ethernet");
 
     private String value;
@@ -40,10 +40,13 @@ public class Printer {
   public static OutputStream getOutputStreamFor(String name_system, int port, String typeConnection) throws Exception {
     var type = Type.fromValue(typeConnection);
     switch (type) {
+			case SMBFILE:
+				return new SambaOutputStream(name_system);
+      case SERIAL:
+				return new SerialStream(name_system);
       case WINDOWS_USB:
       case LINUX_USB:
       case SAMBA:
-      case SERIAL:
       case CUPS:
         var printService = PrinterOutputStream.getPrintServiceByName(name_system);
         return new PrinterOutputStream(printService);
@@ -54,14 +57,19 @@ public class Printer {
     }
   }
 
-  public static void setOnUncaughtExceptionFor(OutputStream outputStream, Consumer<String> onError) {
-    UncaughtExceptionHandler uncaughtException = (Thread t, Throwable e) -> {
-      onError.accept(e.getMessage());
-    };
+  public static void setOnUncaughtExceptionFor(OutputStream outputStream, UncaughtExceptionHandler uncaughtException) {
     if (outputStream instanceof PrinterOutputStream) {
       ((PrinterOutputStream) outputStream).setUncaughtException(uncaughtException);
       return;
     }
+		if(outputStream instanceof SambaOutputStream){
+			((SambaOutputStream) outputStream).setUncaughtException(uncaughtException);
+			return;
+		}
+		if(outputStream instanceof SerialStream){
+			((SerialStream) outputStream).setUncaughtException(uncaughtException);
+			return;
+		}
     if (outputStream instanceof TcpIpOutputStream) {
       ((TcpIpOutputStream) outputStream).setUncaughtException(uncaughtException);
       return;
