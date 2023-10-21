@@ -93,10 +93,14 @@ public class BifrostService {
   }
 
   private void onConnected(Object... args) {
-    attempsConnection = 0;
-    requestToGetPrintingQueue();
-    logger.info("Se establecio conexión con {}", uriBifrost);
-    listenerInfo.accept("Conexión exitosa", "Puka recupero la conexión con el servidor");
+    try {
+      attempsConnection = 0;
+      requestToGetPrintingQueue();
+      logger.info("Se establecio conexión con {}", uriBifrost);
+      listenerInfo.accept("Conexión exitosa", "Puka recupero la conexión con el servidor");
+    } catch (Exception e) {
+      logger.error("Excepcion en onConnected: {}", e.getMessage(), e);
+    }
   }
 
   private void onConnectedError(Object... args) {
