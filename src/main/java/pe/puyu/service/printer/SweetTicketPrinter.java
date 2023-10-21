@@ -1,6 +1,7 @@
 package pe.puyu.service.printer;
 
 import java.io.OutputStream;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import org.json.JSONObject;
@@ -25,15 +26,17 @@ public class SweetTicketPrinter {
   }
 
   public void printTicket() {
-    try {
-      var outputStream = getOutputStreamByPrinterType();
-      loadMetadata();
-      outputStream.write(new SweetTicketDesing(ticket).getBytes());
-      outputStream.close();
-      onSuccess.run();
-    } catch (Exception e) {
-      onError.accept(makeErrorMessageForException(e));
-    }
+    CompletableFuture.runAsync(() -> {
+      try {
+        var outputStream = getOutputStreamByPrinterType();
+        loadMetadata();
+        outputStream.write(new SweetTicketDesing(ticket).getBytes());
+        outputStream.close();
+        onSuccess.run();
+      } catch (Exception e) {
+        onError.accept(makeErrorMessageForException(e));
+      }
+    });
   }
 
   public SweetTicketPrinter setOnSuccess(Runnable onSuccess) {
@@ -69,14 +72,14 @@ public class SweetTicketPrinter {
     return outputStream;
   }
 
-	private String makeErrorMessageForException(String error){
+  private String makeErrorMessageForException(String error) {
     return String.format("Error al imprimir un ticket, name_system: %s, port: %d, type: %s, mensaje error: %s",
         printerInfo.getString("name_system"), printerInfo.getInt("port"), printerInfo.getString("type"),
         error);
-	}
+  }
 
   private String makeErrorMessageForException(Exception e) {
-		return makeErrorMessageForException(e.getMessage());
+    return makeErrorMessageForException(e.getMessage());
   }
 
 }
