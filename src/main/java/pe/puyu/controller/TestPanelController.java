@@ -2,7 +2,6 @@ package pe.puyu.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.CompletableFuture;
 
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +11,7 @@ import com.github.anastaciocintra.escpos.EscPosConst.Justification;
 import com.github.anastaciocintra.escpos.Style.FontSize;
 
 import ch.qos.logback.classic.Logger;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -75,7 +75,7 @@ public class TestPanelController implements Initializable {
     ticketInfo.nativeQRProperty().bind(checkBoxNativeQR.selectedProperty());
     ticketInfo.backgroundInvertedProperty().bind(checkBoxInvertedText.selectedProperty());
     ticketInfo.textNormalizeProperty().bind(checkBoxNormalize.selectedProperty());
-    printerConnection.name_systemProperty().bind(cmbPrintService.valueProperty());
+    printerConnection.name_systemProperty().bind(txtNameSystem.textProperty());
     printerConnection.typeProperty().bind(cmbTypeConnection.valueProperty());
     reloadPrintServices();
     initTypesConnectionList();
@@ -86,20 +86,20 @@ public class TestPanelController implements Initializable {
 
   @FXML
   void onClickBtnTest(ActionEvent event) {
-    CompletableFuture.runAsync(() -> {
+    Platform.runLater(() -> {
       try {
-        var name_system = cmbPrintService.getValue();
-        var port = Integer.parseInt(txtPort.getText());
-        var type = cmbTypeConnection.getValue();
+        var name_system = printerConnection.getName_system();
+        var port = printerConnection.getPort();
+        var type = printerConnection.getType();
         var outputStream = Printer.getOutputStreamFor(name_system, port, type);
-        Printer.setOnUncaughtExceptionFor(outputStream, (t,e) -> {
+        Printer.setOnUncaughtExceptionFor(outputStream, (t, e) -> {
           showMessageAreaError(e.getMessage(), "error");
         });
         var bytes = PrintTestSection.customDesing(escpos -> {
           try {
             escpos.getStyle().setBold(true).setFontSize(FontSize._2, FontSize._2)
                 .setJustification(Justification.Center);
-						escpos.setCharacterCodeTable(CharacterCodeTable.WPC1252);
+            escpos.setCharacterCodeTable(CharacterCodeTable.WPC1252);
             escpos.writeLF("-- PUYU - PUKA --");
             escpos.getStyle().setFontSize(FontSize._1, FontSize._1);
             escpos.writeLF("Esta es una prueba de impresión");
@@ -117,8 +117,6 @@ public class TestPanelController implements Initializable {
         });
         outputStream.write(bytes);
         outputStream.close();
-        cmbPrintService.getItems().removeIf(item -> item.equalsIgnoreCase(printerConnection.getName_system()));
-        cmbPrintService.getItems().add(printerConnection.getName_system());
         showMessageAreaError("La prueba no lanzo ninguna excepcion.", "info");
       } catch (Exception e) {
         showMessageAreaError(e.getMessage(), "error");
@@ -138,7 +136,7 @@ public class TestPanelController implements Initializable {
 
   @FXML
   void onClickBtnPrint(ActionEvent event) {
-    CompletableFuture.runAsync(() -> {
+    Platform.runLater(() -> {
       try {
         var ticket = PrintTestSection.getTicketByTypeDocument(cmbTypeDocument.getValue());
         var printer = JsonUtil.toJSONObject(printerConnection);
@@ -160,8 +158,6 @@ public class TestPanelController implements Initializable {
               showMessageAreaError(error, "error");
             })
             .printTicket();
-        cmbPrintService.getItems().removeIf(item -> item.equalsIgnoreCase(printerConnection.getName_system()));
-        cmbPrintService.getItems().add(printerConnection.getName_system());
       } catch (Exception e) {
         showMessageAreaError(e.getMessage(), "error");
         logger.error("Excepcion al imprimir, pruebas avanzadas: {}", e.getMessage(), e);
@@ -179,7 +175,7 @@ public class TestPanelController implements Initializable {
         content.putString(selectedItem);
         clipboard.setContent(content);
         PukaUtil.toast(getStage(), String.format("Se copio %s", selectedItem));
-        cmbPrintService.setValue(selectedItem);
+        txtNameSystem.setText(selectedItem);
       }
     }
   }
@@ -216,7 +212,7 @@ public class TestPanelController implements Initializable {
     txtPort.setText("9100");
     txtCharacterPerLine.setText("42");
     checkBoxInvertedText.setSelected(true);
-    checkBoxNativeQR.setSelected(true);
+    checkBoxNativeQR.setSelected(false);
     checkBoxCharCodeTable.setSelected(false);
     checkBoxNormalize.setSelected(false);
   }
@@ -262,7 +258,7 @@ public class TestPanelController implements Initializable {
   private ComboBox<String> cmbCharCodeTable;
 
   @FXML
-  private ComboBox<String> cmbPrintService;
+  private TextField txtNameSystem;
 
   @FXML
   private ComboBox<String> cmbTypeConnection;

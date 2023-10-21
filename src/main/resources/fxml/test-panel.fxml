@@ -42,7 +42,7 @@
                         <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                            <children>
                               <Label text="Servicio de impresion:" />
-                              <ComboBox fx:id="cmbPrintService" editable="true" maxWidth="1.7976931348623157E308" prefWidth="150.0" VBox.vgrow="ALWAYS" />
+                              <TextField fx:id="txtNameSystem" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">

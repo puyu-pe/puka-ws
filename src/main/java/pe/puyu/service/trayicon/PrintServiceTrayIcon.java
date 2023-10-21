@@ -25,14 +25,14 @@ public class PrintServiceTrayIcon {
   private BifrostService bifrostService;
   private MenuItem enableLogsMenuItem;
   private Stage parentStage;
-	private Stage testPanelStage;
+  private Stage testPanelStage;
   private final Logger logger = (Logger) LoggerFactory.getLogger("pe.puyu.service.trayicon");
 
   public PrintServiceTrayIcon(BifrostService bifrostService) throws Exception {
     this.enableLogsMenuItem = new MenuItem("Activar Logs");
     this.enableLogsMenuItem.setOnAction(this::onClickEnableLogs);
     this.bifrostService = bifrostService;
-		this.testPanelStage = new Stage();
+    this.testPanelStage = new Stage();
     loadStage();
     loadTrayIcon();
     this.bifrostService.setListenerInfoNotification(this::onInfoMessageBifrost);
@@ -55,15 +55,24 @@ public class PrintServiceTrayIcon {
   }
 
   private void loadTrayIcon() {
+    var logs = new MenuItem("Logs");
+    logs.setOnAction(this::onClickLogs);
+    var test = new MenuItem("Pruebas de impresión");
+    test.setOnAction(this::onClickMenuItemTestPrinter);
+
     trayIcon = new FXTrayIcon.Builder(parentStage, getClass().getResource("/assets/icon.png"))
-        .menuItem("Portapapeles Logs", this::onClickCopyLogsDirectoryToClipboard)
-        .menuItem("Portapapeles bifrost config", this::onClickCopyUserDirectoryToClipboard)
-        .menuItem(enableLogsMenuItem)
-        .menuItem("Pruebas de impresión", this::onClickMenuItemTestPrinter)
+        .menuItem("Refrescar servicio", this::onRefreshService)
+        .menu("Mantenimiento", enableLogsMenuItem, logs, test)
+        .menuItem("Configuración", this::onClickCopyUserDirectoryToClipboard)
         .build();
   }
 
-  private void onClickCopyLogsDirectoryToClipboard(ActionEvent event) {
+  private void onRefreshService(ActionEvent event) {
+    bifrostService.reloadSocket();
+    bifrostService.start();
+  }
+
+  private void onClickLogs(ActionEvent event) {
     Clipboard clipboard = Clipboard.getSystemClipboard();
     ClipboardContent content = new ClipboardContent();
     content.putString(PukaUtil.getLogsDirectory());
