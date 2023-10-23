@@ -104,10 +104,12 @@ public class BifrostService {
   }
 
   private void onConnectedError(Object... args) {
-    listenerError.accept("Conexión perdida",
-        String.format("%s. Intentando conectarse al servidor intento: %s", args[0], attempsConnection));
-    ++attempsConnection;
-    logger.error("Ocurrio un error al intentar conectarse: {}, ...reintentando n° {}", args[0], attempsConnection);
+		if (attempsConnection % 5 == 0 || attempsConnection == 0) {
+			listenerError.accept("Conexión perdida",
+					String.format("%s. Intentando conectarse al servidor intento: %s", args[0], attempsConnection));
+		}
+		++attempsConnection;
+		logger.error("Ocurrio un error al intentar conectarse: {}, ...reintentando n° {}", args[0], attempsConnection);
   }
 
   private void onDisconnect(Object... args) {
