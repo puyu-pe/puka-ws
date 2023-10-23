@@ -42,7 +42,7 @@ public class BifrostService {
     attempsConnection = 0;
     IO.Options options = IO.Options.builder().build();
     if (socket != null) {
-      socket.close().disconnect();
+      socket.close();
     }
     socket = IO.socket(uriBifrost, options);
     startListiningEvents();
@@ -115,6 +115,8 @@ public class BifrostService {
     if (args.length > 0)
       message = args[0].toString();
     logger.info("El servicio a sido desconectado: {}", message);
+		reloadSocket();
+		start();
   }
 
   private void onSendNumberItemsQueue(Object... args) {
@@ -190,6 +192,7 @@ public class BifrostService {
                   listenerError.accept("No se pudo imprimir un ticket", error);
                 })
                 .printTicket();
+						Thread.sleep(100);
           }
         } catch (Exception e) {
           logger.error("Excepción intentar imprimir ticket con id {}: {}", id, e.getMessage(), e);
