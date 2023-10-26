@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<TabPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+         prefHeight="722.0" prefWidth="1090.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1"
+         xmlns:fx="http://javafx.com/fxml/1" fx:controller="pe.puyu.pukafx.views.TestPanelController">
+   <stylesheets>
+      <URL value="@../styles/index.css"/>
+      <URL value="@../styles/test-panel.css"/>
+   </stylesheets>
+   <Tab text="Pruebas de impresion">
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="659.0" prefWidth="992.0">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+         </padding>
+         <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+               prefHeight="100.0" prefWidth="200.0" spacing="20.0" VBox.vgrow="NEVER">
+            <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="200.0"
+                  prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <Label text="Tipo conexion:"/>
+               <ComboBox fx:id="cmbTypeConnection" maxWidth="1.7976931348623157E308" prefWidth="150.0"
+                         VBox.vgrow="ALWAYS"/>
+            </VBox>
+            <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="200.0"
+                  prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <Label text="Puerto:"/>
+               <TextField fx:id="txtPort"/>
+            </VBox>
+            <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="200.0"
+                  prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <Label text="Servicio de impresion:"/>
+               <TextField fx:id="txtNameSystem" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS"/>
+            </VBox>
+            <VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="200.0"
+                  prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onClickBtnTest"
+                       text="TEST">
+                  <graphic>
+                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../assets/test-panel/network.png"/>
+                     </ImageView>
+                  </graphic>
+               </Button>
+            </VBox>
+         </HBox>
+         <GridPane VBox.vgrow="ALWAYS">
+            <columnConstraints>
+               <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
+               <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
+               <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
+               <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
+               <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
+               <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
+               <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
+               <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
+               <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
+               <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
+               <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
+               <ColumnConstraints/>
+            </columnConstraints>
+            <rowConstraints>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <Label alignment="TOP_CENTER" styleClass="title" text="Pruebas avanzadas:"
+                   GridPane.columnSpan="2147483647" GridPane.valignment="CENTER"/>
+            <VBox prefHeight="74.0" prefWidth="243.0" spacing="10.0" GridPane.columnSpan="4"
+                  GridPane.rowIndex="1" GridPane.rowSpan="6">
+               <padding>
+                  <Insets left="10.0" right="5.0"/>
+               </padding>
+               <Label styleClass="subtitle" text="Compatibilidad:"/>
+               <CheckBox fx:id="checkBoxInvertedText" maxWidth="1.7976931348623157E308"
+                         mnemonicParsing="false" selected="true" text="Soporte fondo Invertido"/>
+               <CheckBox fx:id="checkBoxNativeQR" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                         selected="true" text="QR Nativo"/>
+               <CheckBox fx:id="checkBoxNormalize" mnemonicParsing="false" text="Normalizar Texto"/>
+               <CheckBox fx:id="checkBoxCharCodeTable" maxWidth="1.7976931348623157E308"
+                         mnemonicParsing="false" onAction="#onClickCheckBoxCharCodeTable"
+                         text="CharCodeTable"/>
+               <ComboBox fx:id="cmbCharCodeTable" disable="true" maxWidth="1.7976931348623157E308"
+                         prefWidth="150.0">
+                  <VBox.margin>
+                     <Insets left="15.0"/>
+                  </VBox.margin>
+               </ComboBox>
+            </VBox>
+            <VBox prefHeight="63.0" prefWidth="122.0" spacing="10.0" GridPane.columnIndex="4"
+                  GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="3">
+               <Label styleClass="subtitle" text="Incluir:"/>
+               <CheckBox fx:id="checkBoxLogo" mnemonicParsing="false" text="Logo"/>
+               <CheckBox fx:id="checkBoxQrCode" mnemonicParsing="false" text="Codigo QR"/>
+            </VBox>
+            <VBox prefHeight="14.0" prefWidth="365.0" spacing="10.0" GridPane.columnIndex="6"
+                  GridPane.columnSpan="6" GridPane.rowIndex="1" GridPane.rowSpan="3">
+               <Label styleClass="subtitle" text="Personalizar:"/>
+               <HBox maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="365.0" spacing="30.0">
+                  <padding>
+                     <Insets left="15.0"/>
+                  </padding>
+                  <Label text="Tamaño fuente comandas:"/>
+                  <TextField fx:id="txtFontSizeCommand" maxWidth="1.7976931348623157E308" text="2"
+                             HBox.hgrow="ALWAYS"/>
+               </HBox>
+               <HBox maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="365.0" spacing="30.0">
+                  <padding>
+                     <Insets left="15.0"/>
+                  </padding>
+                  <Label text="Caracteres por linea:"/>
+                  <TextField fx:id="txtCharacterPerLine" maxWidth="1.7976931348623157E308" text="42"
+                             HBox.hgrow="ALWAYS"/>
+               </HBox>
+               <HBox maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="365.0" spacing="30.0">
+                  <padding>
+                     <Insets left="15.0"/>
+                  </padding>
+                  <Label text="Tipos de documento:"/>
+                  <ComboBox fx:id="cmbTypeDocument" maxWidth="1.7976931348623157E308" prefWidth="150.0"
+                            HBox.hgrow="ALWAYS"/>
+               </HBox>
+            </VBox>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onClickBtnPrint"
+                    text="IMPRIMIR" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS"
+                    GridPane.rowIndex="4">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <Image url="@../assets/test-panel/print.png"/>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <TextArea fx:id="txtErrorArea" prefHeight="0.0" styleClass="areaError" wrapText="true"
+                      GridPane.columnSpan="11" GridPane.rowIndex="7" GridPane.rowSpan="3"/>
+         </GridPane>
+      </VBox>
+   </Tab>
+   <Tab text="Servicios de impresion">
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+         <ListView fx:id="listViewServices" onMouseClicked="#onClickListViewServices" prefHeight="200.0"
+                   prefWidth="200.0" VBox.vgrow="ALWAYS"/>
+         <Button mnemonicParsing="false" onAction="#onReloadPrintServices" style="-fx-text-fill: black;"
+                 text="RECARGAR">
+            <padding>
+               <Insets bottom="15.0" left="50.0" right="50.0" top="15.0"/>
+            </padding>
+         </Button>
+      </VBox>
+   </Tab>
+</TabPane>
