@@ -5,17 +5,17 @@
     "business": {
       "description": "PUYU SRL"
     },
-    "productionArea": "Pizzeria Horno",
+    "productionArea": "Area Desarrollo",
     "document": {
       "description": "N°",
-      "identifier": "71"
+      "identifier": "6"
     },
     "textBackgroundInverted" : "ANULACION",
     "items": [
       {
         "quantity": 1,
-        "description": "ARROZ CON LANGOSTINOS",
-        "commentary": "acevichado, picante, limpio, con mucho arroz"
+        "description": "Instalador PUKA",
+        "commentary": "deb, msi, exe, app-image"
       }
     ],
     "finalMessage": [

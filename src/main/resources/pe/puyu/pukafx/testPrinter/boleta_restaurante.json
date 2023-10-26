@@ -7,10 +7,10 @@
         "type": "text",
         "value": "PUYU SRL"
       },
-      "description": "De: Max Saenz Cardenas",
+      "description": "De: Velnae",
       "additional": [
-        "RUC 10412443361 JR. LIMA Nº 101",
-        "ABANCAY - ABANCAY - APÚRIMAC",
+        "RUC 12345678910 JR. PUYU Nº 101",
+        "ABANCAY - ABANCAY - AV. PUYU",
         "TEL : 083323805  CEL. 983960230"
       ]
     },
@@ -32,13 +32,13 @@
     "items": [
       {
         "quantity": "1",
-        "description": "FETUCCINI AL ALFREDO fjsalfjsdlfjslkdf sfjsdlfjssdf fasdfsdfasdwee",
+        "description": "PUKA CSHARP",
         "totalPrice": 17
       },
       {
         "quantity": "1",
-        "description": "FETUCCINI A LA NAPOLITANA",
-        "totalPrice": 16
+        "description": "YuRES",
+        "totalPrice": 32
       }
     ],
     "amounts": {

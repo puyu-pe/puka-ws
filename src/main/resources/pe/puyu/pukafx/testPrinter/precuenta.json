@@ -10,18 +10,18 @@
     },
     "additional": [
       "FECHA EMISIÓN : 01/10/2019 14:51:26",
-      "Mesero(a) : Luis",
+      "Mesero(a) : Roel",
       "Mesa : Delivery"
     ],
     "items": [
       {
         "quantity": 1,
-        "description": "HAWAYANA (FAMILIAR)",
+        "description": "YuBIZ offline",
         "totalPrice": 14.50
       },
       {
         "quantity": 1,
-        "description": "HAWAYANA (PERSONAL)",
+        "description": "YuBIZ online",
         "totalPrice": 14.50
       }
     ],

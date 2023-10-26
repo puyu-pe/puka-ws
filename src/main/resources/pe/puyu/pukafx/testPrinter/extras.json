@@ -7,7 +7,7 @@
         "type": "text",
         "value": "PUYU SRL"
       },
-      "description": "EMPRESA DE TRANSPORTES REY DE LOS ANDES S.A.C.",
+      "description": "Sistema de facturación electronica",
       "document": "RUC",
       "documentNumber": "20450523381"
     },
@@ -34,6 +34,6 @@
         "totalPrice": "9.00"
       }
     ],
-    "finalMessage": "*** CONTROL DE BUS ***"
+    "finalMessage": "*** CONTROL DE BUGS ***"
   }
 }

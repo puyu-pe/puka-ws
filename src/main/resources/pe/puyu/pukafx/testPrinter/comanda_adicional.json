@@ -5,24 +5,24 @@
     "business": {
       "description": "PUYU SRL"
     },
-    "productionArea": "Pizzeria Horno",
+    "productionArea": "Area de desarrollo",
     "document": {
       "description": "N°",
       "identifier": "71"
     },
     "additional": [
-      "Mesero(a) : Luis",
-      "Mesa : Delivery"
+      "Mesero(a) : Marco",
+      "Mesa : Yures-admin"
     ],
     "items": [
       {
         "quantity": 1,
-        "description": "ARROZ CON LANGOSTINOS",
-        "commentary": "acevichado, picante, limpio, con mucho arroz"
+        "description": "Yures",
+        "commentary": "acevichado, laravel, php, deepin"
       },
       {
         "quantity": 1,
-        "description": "HAWAYANA (PERSONAL)"
+        "description": "Yubis ENTERPRISE"
       }
     ],
     "finalMessage": [

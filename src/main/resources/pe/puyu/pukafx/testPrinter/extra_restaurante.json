@@ -20,13 +20,13 @@
     "items": [
       {
         "quantity": 1,
-        "description": "HAWAYANA (FAMILIAR)",
-        "commentary": "con arto quesooo",
+        "description": "Pantalla led",
+        "commentary": "con luces",
         "totalPrice": 14.50
       },
       {
         "quantity": 1,
-        "description": "HAWAYANA (PERSONAL)",
+        "description": "Ubuntu (Personal)",
         "totalPrice": 14.50
       }
     ]

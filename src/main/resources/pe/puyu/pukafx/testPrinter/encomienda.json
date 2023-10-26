@@ -9,20 +9,20 @@
     "business": {
       "comercialDescription": {
         "type": "text",
-        "value": "REY DE LOS ANDES"
+        "value": "PUYU SRL."
       },
-      "description": "EMPRESA DE TRANSPORTES REY DE LOS ANDES S.A.C.",
+      "description": "Sistemas de facturación electronica",
       "additional": [
         "RUC 20450523381 AGENCIA ABANCAY",
-        "DIRECCIÓN : Av. Brasil S/N",
-        "TELÉFONO : 989290733"
+        "DIRECCIÓN : Av. PUYU S/N",
+        "TELÉFONO : 666777888"
       ]
     },
     "customer": [
       "REMITENTE / CLIENTE",
       "DNI: 20564379248",
       "FASTWORKX SRL",
-      "AV CANADA N 159 ABANCAY ABANCAY APURIMAC"
+      "AV CANADA N 159 ABANCAY ABANCAY PUYU"
     ],
     "additional": [
       "FECHA EMISIÓN : 01/10/2019 14:51:26",
@@ -31,12 +31,12 @@
     ],
     "items": [
       {
-        "description": "Tipo : Cajas cerradas",
+        "description": "Tipo : Silla gamer",
         "quantity": 2,
         "totalPrice": "20.00"
       },
       {
-        "description": "Giro de dinero",
+        "description": "Ticketera",
         "quantity": 1,
         "totalPrice": "5.00"
       }

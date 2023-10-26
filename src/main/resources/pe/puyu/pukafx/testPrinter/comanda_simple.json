@@ -5,7 +5,7 @@
     "business": {
       "description": "PUYU SRL"
     },
-    "productionArea": "Pizzeria Horno",
+    "productionArea": "Area de ventas",
     "document": {
       "description": "N°",
       "identifier": "71"
@@ -13,8 +13,8 @@
     "items": [
       {
         "quantity": 1,
-        "description": "ARROZ CON LANGOSITNOS",
-        "commentary": "acevichado, picante, limpio, con mucho arroz"
+        "description": "YuBUZ",
+        "commentary": "java, picante, oferta"
       }
     ],
     "finalMessage": [

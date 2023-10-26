@@ -5,25 +5,25 @@
     "business": {
       "description": "PUYU SRL"
     },
-    "productionArea": "Pizzeria Horno",
+    "productionArea": "Area de Desarrollo",
     "document": {
       "description": "N°",
-      "identifier": "71"
+      "identifier": "666"
     },
     "additional": [
-      "Mesero(a) : Luis",
-      "Mesa : Delivery"
+      "Mesero(a) : Emerson",
+      "Mesa : PC 5"
     ],
     "textBackgroundInverted" : "ANULACION",
     "items": [
       {
         "quantity": 1,
-        "description": "ARROZ CON LANGOSTINOS",
-        "commentary": "acevichado, picante, limpio, con mucho arroz"
+        "description": "PUKA APP",
+        "commentary": "Sin bugs, en intellij, limpio"
       },
       {
         "quantity": 1,
-        "description": "HAWAYANA (PERSONAL)"
+        "description": "BIFROST (MULTICLIENTE)"
       }
     ],
     "finalMessage": [
