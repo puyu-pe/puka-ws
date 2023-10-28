@@ -26,7 +26,7 @@ set MAIN_JAR="PukaFX-%PROJECT_VERSION%.jar"
 rem INSTALLER_TYPE Se puede establecer los siguiente "app-image", "exe", "msi"
 rem Solo se probaron "exe" y "msi". En cambio "app-image", no funciono en la maquina del autor
 rem para msi se necesita tener instalado previamente WIX toolset, (https://wixtoolset.org)
-set INSTALLER_TYPE=msi
+set INSTALLER_TYPE=%INSTALLER_TYPE%
 
 rem ------ Configuracion de directorios y archivos ----------------------------------------
 rem El script crea los directorios necesarios para la instalacion 

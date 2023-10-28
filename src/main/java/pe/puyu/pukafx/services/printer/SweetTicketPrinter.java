@@ -1,7 +1,7 @@
 package pe.puyu.pukafx.services.printer;
 
 import org.json.JSONObject;
-import pe.puyu.jticketdesing.core.SweetTicketDesing;
+import pe.puyu.jticketdesing.core.SweetTicketDesign;
 import pe.puyu.pukafx.model.UserConfig;
 import pe.puyu.pukafx.util.JsonUtil;
 import pe.puyu.pukafx.util.PukaUtil;
@@ -29,7 +29,7 @@ public class SweetTicketPrinter {
       try {
         var outputStream = getOutputStreamByPrinterType();
         loadMetadata();
-        outputStream.write(new SweetTicketDesing(ticket).getBytes());
+        outputStream.write(new SweetTicketDesign(ticket).getBytes());
         outputStream.close();
         onSuccess.run();
       } catch (Exception e) {

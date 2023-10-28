@@ -12,7 +12,7 @@
 MAIN_JAR="PukaFX-${PROJECT_VERSION}.jar"
 
 # Set desired installer type: "app-image", "rpm" or "deb".
-INSTALLER_TYPE=app-image
+INSTALLER_TYPE=${INSTALLER_TYPE}
 
 echo "java home: $JAVA_HOME"
 echo "project version: $PROJECT_VERSION"

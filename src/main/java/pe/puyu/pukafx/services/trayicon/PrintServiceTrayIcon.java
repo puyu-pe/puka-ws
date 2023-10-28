@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
@@ -28,7 +29,7 @@ public class PrintServiceTrayIcon {
   private final Logger logger = (Logger) LoggerFactory.getLogger("pe.puyu.puka.service.trayicon");
 
   public PrintServiceTrayIcon(BifrostService bifrostService) throws Exception {
-    this.enableLogsMenuItem = new MenuItem("Activar Logs");
+    this.enableLogsMenuItem = new CheckMenuItem("Activar Logs");
     this.enableLogsMenuItem.setOnAction(this::onClickEnableLogs);
     this.bifrostService = bifrostService;
     this.testPanelStage = new Stage();
