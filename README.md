@@ -2,7 +2,7 @@
 
 Utilidad de servicio de impresión, para puntos de venta.
 
-## Indece
+## Indice
 
 1. [Estructura del proyecto](#estructura-del-proyecto)
 2. [Construir el proyecto](#construir-el-proyecto)
