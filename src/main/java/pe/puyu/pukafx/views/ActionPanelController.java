@@ -2,7 +2,6 @@ package pe.puyu.pukafx.views;
 
 import ch.qos.logback.classic.Logger;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -42,12 +41,12 @@ public class ActionPanelController implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    initPerfilTab();
+    initProfileTab();
     lblVersion.setText(PukaUtil.getPukaVersion());
   }
 
   @FXML
-  void onReprint(ActionEvent event) {
+  void onReprint() {
     try {
       boolean result = PukaAlerts.showConfirmation("¿Seguro que deseas reemprimir estos tickets?",
           "");
@@ -60,7 +59,7 @@ public class ActionPanelController implements Initializable {
   }
 
   @FXML
-  void onReleaseQueue(ActionEvent event) {
+  void onReleaseQueue() {
     try {
       boolean result = PukaAlerts.showConfirmation("¿Seguro que deseas liberar los tickets?",
           "Esta accion no es reversible");
@@ -73,7 +72,7 @@ public class ActionPanelController implements Initializable {
   }
 
   @FXML
-  void onHideWindow(ActionEvent event) {
+  void onHideWindow() {
     this.getStage().hide();
   }
 
@@ -85,7 +84,7 @@ public class ActionPanelController implements Initializable {
     });
   }
 
-  private void initPerfilTab() {
+  private void initProfileTab() {
     Platform.runLater(() -> {
       try {
         var userConfig = JsonUtil.convertFromJson(PukaUtil.getUserConfigFileDir(), UserConfig.class);
