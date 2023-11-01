@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -167,8 +168,8 @@ public class BifrostService {
 							logger.warn("UncaughtException al imprimir ticket con id: {}, error: {}", id, error);
 							listenerError.accept("Error interno, hilo de impresión: ", error);
 						});
-						if (sweetTicketPrinter.printTicket())
-							emitPrintItem(id);
+						sweetTicketPrinter.printTicket();
+						emitPrintItem(id);
 					} catch (Exception e) {
 						var message = String.format("Excepción al intentar imprimir ticket con id %s: %s", id, e.getMessage());
 						logger.error(message, e);

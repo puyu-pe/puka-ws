@@ -1,11 +1,13 @@
-package pe.puyu.pukafx.services.printer;
+package pe.puyu.pukafx.services.printer.outputstream;
 
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
+import pe.puyu.pukafx.services.printer.interfaces.Cancelable;
+import pe.puyu.pukafx.services.printer.interfaces.Caughtable;
 
 import java.io.*;
 
-public class SambaOutputStream extends PipedOutputStream {
+public class SambaOutputStream extends PipedOutputStream implements Cancelable, Caughtable {
 	protected final PipedInputStream pipedInputStream;
 	protected final Thread threadPrint;
 	protected final Logger logger = (Logger) LoggerFactory.getLogger("pe.puyu.puka.service.printer");
@@ -44,5 +46,13 @@ public class SambaOutputStream extends PipedOutputStream {
 
 	public void setUncaughtException(Thread.UncaughtExceptionHandler uncaughtException) {
 		threadPrint.setUncaughtExceptionHandler(uncaughtException);
+	}
+
+	@Override
+	public void cancel() {
+		try {
+			this.close();
+		} catch (IOException ignored) {
+		}
 	}
 }

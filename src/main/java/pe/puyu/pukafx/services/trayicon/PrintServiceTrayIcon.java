@@ -19,6 +19,7 @@ import pe.puyu.pukafx.views.ActionPanelController;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 public class PrintServiceTrayIcon {
   private FXTrayIcon trayIcon;
@@ -68,8 +69,10 @@ public class PrintServiceTrayIcon {
   }
 
   private void onRefreshService(ActionEvent event) {
-    bifrostService.reloadSocket();
-    bifrostService.start();
+    CompletableFuture.runAsync(() -> {
+      bifrostService.reloadSocket();
+      bifrostService.start();
+    });
   }
 
   private void onClickLogs(ActionEvent event) {

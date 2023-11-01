@@ -5,12 +5,11 @@ import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
 import pe.puyu.jticketdesing.core.SweetTicketDesign;
 import pe.puyu.pukafx.model.UserConfig;
+import pe.puyu.pukafx.services.printer.interfaces.Cancelable;
 import pe.puyu.pukafx.util.JsonUtil;
 import pe.puyu.pukafx.util.PukaUtil;
 
 import java.io.OutputStream;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class SweetTicketPrinter {
@@ -25,18 +24,11 @@ public class SweetTicketPrinter {
 		this.onUncaughtException = logger::error;
 	}
 
-	public boolean printTicket() throws Exception{
-		return CompletableFuture.supplyAsync(() -> {
-			try (OutputStream outputStream = getOutputStreamByPrinterType()) {
-				loadMetadata();
-				var bytes = new SweetTicketDesign(ticket).getBytes();
-				outputStream.write(bytes);
-				return true;
-			} catch (Exception e) {
-				onUncaughtException.accept(makeErrorMessage(e.getMessage()));
-				return false;
-			}
-		}).orTimeout(1600, TimeUnit.MILLISECONDS).get();
+	public void printTicket() throws Exception {
+		try (OutputStream outputStream = getOutputStreamByPrinterType()) {
+			loadMetadata();
+			outputStream.write(new SweetTicketDesign(ticket).getBytes());
+		}
 	}
 
 	public void setOnUncaughtException(Consumer<String> onUncaughtException) {
@@ -61,15 +53,18 @@ public class SweetTicketPrinter {
 		var name_system = this.printerInfo.getString("name_system");
 		var port = this.printerInfo.getInt("port");
 		var outputStream = Printer.getOutputStreamFor(name_system, port, this.printerInfo.getString("type"));
-		Printer.setOnUncaughtExceptionFor(outputStream, makeUncaughtException());
+		Printer.setOnUncaughtExceptionFor(outputStream, makeUncaughtException(outputStream));
 		return outputStream;
 	}
 
-	private Thread.UncaughtExceptionHandler makeUncaughtException() {
+	private Thread.UncaughtExceptionHandler makeUncaughtException(OutputStream outputStream) {
 		return (t, e) -> {
 			logger.error("UncaughtException SweetTicketPrinter: {}, thread_name: {}, thread_state: {}",
 				e.getMessage(), t.getName(), t.getState().name(), e);
 			onUncaughtException.accept(makeErrorMessage(e.getMessage()));
+			if (outputStream instanceof Cancelable) {
+				((Cancelable) outputStream).cancel();
+			}
 		};
 	}
 

@@ -129,8 +129,8 @@ public class TestPanelController implements Initializable {
 				}
 				var sweetTicketPrinter = new SweetTicketPrinter(ticket);
 				sweetTicketPrinter.setOnUncaughtException(error -> showMessageAreaError(error, "error"));
-				if (sweetTicketPrinter.printTicket())
-					showMessageAreaError("La prueba no lanzo una excepcion.", "info");
+				sweetTicketPrinter.printTicket();
+				showMessageAreaError("La prueba no lanzo una excepcion.", "info");
 			} catch (Exception e) {
 				showMessageAreaError(e.getMessage(), "error");
 				logger.error("Excepcion al imprimir, pruebas avanzadas: {}", e.getMessage(), e);
