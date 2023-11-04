@@ -1,7 +1,10 @@
 package pe.puyu.pukafx.services.printer;
 
-import com.github.anastaciocintra.output.PrinterOutputStream;
-import com.github.anastaciocintra.output.TcpIpOutputStream;
+import pe.puyu.pukafx.services.printer.interfaces.Caughtable;
+import pe.puyu.pukafx.services.printer.outputstream.SambaOutputStream;
+import pe.puyu.pukafx.services.printer.outputstream.SerialStream;
+import pe.puyu.pukafx.services.printer.outputstream.ServiceOutputStream;
+import pe.puyu.pukafx.services.printer.outputstream.SocketOutputStream;
 
 import java.io.OutputStream;
 import java.lang.Thread.UncaughtExceptionHandler;
@@ -43,29 +46,17 @@ public class Printer {
 		  case SMBFILE -> new SambaOutputStream(name_system);
 		  case SERIAL -> new SerialStream(name_system);
 		  case WINDOWS_USB, LINUX_USB, SAMBA, CUPS -> {
-			  var printService = PrinterOutputStream.getPrintServiceByName(name_system);
-			  yield new PrinterOutputStream(printService);
+			  var printService = ServiceOutputStream.getPrintServiceByName(name_system);
+			  yield new ServiceOutputStream(printService);
 		  }
-		  case ETHERNET -> new TcpIpOutputStream(name_system, port);
+		  case ETHERNET -> new SocketOutputStream(name_system, port);
 	  };
   }
 
   public static void setOnUncaughtExceptionFor(OutputStream outputStream, UncaughtExceptionHandler uncaughtException) {
-    if (outputStream instanceof PrinterOutputStream) {
-      ((PrinterOutputStream) outputStream).setUncaughtException(uncaughtException);
-      return;
-    }
-		if(outputStream instanceof SambaOutputStream){
-			((SambaOutputStream) outputStream).setUncaughtException(uncaughtException);
-			return;
+		if(outputStream instanceof Caughtable){
+			((Caughtable) outputStream).setUncaughtException(uncaughtException);
 		}
-		if(outputStream instanceof SerialStream){
-			((SerialStream) outputStream).setUncaughtException(uncaughtException);
-			return;
-		}
-    if (outputStream instanceof TcpIpOutputStream) {
-      ((TcpIpOutputStream) outputStream).setUncaughtException(uncaughtException);
-    }
   }
 
 }

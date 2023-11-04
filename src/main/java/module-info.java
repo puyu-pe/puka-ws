@@ -18,6 +18,7 @@ module pe.puyu.pukafx {
 
 	requires socket.io.client;
 	requires engine.io.client;
+	requires okhttp3;
 	requires org.json;
 
 	requires escpos.coffee;
