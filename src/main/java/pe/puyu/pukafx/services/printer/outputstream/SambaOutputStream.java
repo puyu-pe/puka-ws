@@ -51,6 +51,7 @@ public class SambaOutputStream extends PipedOutputStream implements Cancelable, 
 	@Override
 	public void cancel() {
 		try {
+			this.pipedInputStream.close();
 			this.close();
 		} catch (IOException ignored) {
 		}

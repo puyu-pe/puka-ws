@@ -10,6 +10,8 @@ import pe.puyu.pukafx.util.JsonUtil;
 import pe.puyu.pukafx.util.PukaUtil;
 
 import java.io.OutputStream;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class SweetTicketPrinter {
@@ -25,10 +27,17 @@ public class SweetTicketPrinter {
 	}
 
 	public void printTicket() throws Exception {
-		try (OutputStream outputStream = getOutputStreamByPrinterType()) {
-			loadMetadata();
-			outputStream.write(new SweetTicketDesign(ticket).getBytes());
-		}
+		CompletableFuture
+				.runAsync(() -> {
+					try (OutputStream outputStream = getOutputStreamByPrinterType()) {
+						loadMetadata();
+						outputStream.write(new SweetTicketDesign(ticket).getBytes());
+					} catch (Exception e) {
+						throw new RuntimeException(e.getMessage());
+					}
+				})
+				.orTimeout(2000, TimeUnit.MILLISECONDS)
+				.get();
 	}
 
 	public void setOnUncaughtException(Consumer<String> onUncaughtException) {

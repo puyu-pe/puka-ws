@@ -26,7 +26,7 @@ public class SocketOutputStream extends PipedOutputStream implements Cancelable,
 
 		Runnable runnablePrint = () -> {
 			try (Socket socket = new Socket()) {
-				socket.connect(new InetSocketAddress(host, port), 1600);
+				socket.connect(new InetSocketAddress(host, port), 1800);
 				OutputStream outputStream = socket.getOutputStream();
 				byte[] buf = new byte[1024];
 				while (true) {
@@ -46,6 +46,7 @@ public class SocketOutputStream extends PipedOutputStream implements Cancelable,
 
 	public void cancel() {
 		try {
+			this.pipedInputStream.close();
 			this.close();
 		} catch (IOException ignored) {
 		}
