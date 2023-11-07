@@ -26,8 +26,8 @@
     ],
     "additional": [
       "FECHA EMISIÓN : 01/10/2019 14:51:26",
-      "MONEDA : SOLES",
-      "CONSIGNADO : RENZO ZABALA"
+      "MONEDA : Intis",
+      "CONSIGNADO : Ing. Christian"
     ],
     "items": [
       {
@@ -51,9 +51,9 @@
       "USUARIO : ADMIN | AGENCIA : ABANCAY"
     ],
     "finalMessage": [
-      "REPRESENTACIÓN IMPRESA DE FACTURA ELECTRÓNICA",
+      "PRUEBA DE IMPRESION ELECTRÓNICA",
       "PARA CONSULTAR EL DOCUMENTO VISITA NEXUS:",
-      "HTTPS://NEXUS.FASTWORKX.COM/20450523381",
+      "HTTPS://NEXUS.FASTWORKX.COM/123456789",
       "RESUMEN: Bfdfg+sdfsAfKfVs=",
       "",
       "POR FASTWORKX S.R.L. - PERÚ"

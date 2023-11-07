@@ -9,10 +9,10 @@
       },
       "description": "Sistema de facturación electronica",
       "document": "RUC",
-      "documentNumber": "20450523381"
+      "documentNumber": "123456789"
     },
     "document": {
-      "description": "Control de",
+      "description": "Prueba electronica",
       "identifier": "B001 - 00000071"
     },
     "additional": [
@@ -25,11 +25,10 @@
           "Embarque : ABANCAY",
           "Destino : CHALHUANCA",
           "Asiento : 2",
-          "Pasajero : EMERSON ÑAHUINLLA VELASQUEZ",
+          "Pasajero : Velnae",
           "F. Viaje : 01/10/2019 02:00 PM",
           "Conductor : QUISPE CONTRERAS GUILLERMO",
-          "Bus : TOYOTA  HIACE PLACA D6R-954",
-          ""
+          "Bus : TOYOTA  HIACE PLACA D6R-954"
         ],
         "totalPrice": "9.00"
       }

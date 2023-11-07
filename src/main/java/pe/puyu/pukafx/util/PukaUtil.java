@@ -25,69 +25,74 @@ import java.util.Optional;
 
 public class PukaUtil {
 
-  public static String getUserDataDir() {
-    AppDirs appDirs = AppDirsFactory.getInstance();
-    String userDataDir = appDirs.getUserDataDir("puka", PukaUtil.getPukaVersion(), "puyu");
-    File file = new File(userDataDir);
-    if (!file.exists()) {
-      file.mkdirs();
-    }
-    return userDataDir;
-  }
+	public static String getUserDataDir() {
+		AppDirs appDirs = AppDirsFactory.getInstance();
+		//nota: appVersion = null por que no es necesario la version
+		String userDataDir = appDirs.getUserDataDir("puka", null, "puyu");
+		File file = new File(userDataDir);
+		if (!file.exists()) {
+			var ignored = file.mkdirs();
+		}
+		return userDataDir;
+	}
 
-  public static String getBifrostConfigFileDir() throws IOException {
-    return getConfigFileDir("bifrost.json");
-  }
+	public static String getBifrostConfigFileDir() throws IOException {
+		return getConfigFileDir("bifrost.json");
+	}
 
-  public static String getUserConfigFileDir() throws IOException {
-    return getConfigFileDir("user.json");
-  }
+	public static String getUserConfigFileDir() throws IOException {
+		return getConfigFileDir("user.json");
+	}
 
-  public static String getConfigFileDir(String jsonFileName) throws IOException {
-    File file = new File(Path.of(getUserDataDir(), jsonFileName).toString());
-    if (!file.exists()) {
-      file.createNewFile();
-    }
-    return file.getAbsolutePath();
-  }
+	public static String getConfigFileDir(String jsonFileName) throws IOException {
+		File file = new File(Path.of(getUserDataDir(), jsonFileName).toString());
+		if (!file.exists()) {
+			var ignored = file.createNewFile();
+		}
+		return file.getAbsolutePath();
+	}
 
-  public static String getLogsDirectory() {
-    return Path.of(System.getProperty("java.io.tmpdir"), "puyu").toString();
-  }
+	public static String getLogsDirectory() {
+		return Path.of(getTempDirectory(), "puyu").toString();
+	}
 
-  public static String getPukaVersion() {
-    try {
-      var resourceUrl = PukaUtil.class.getResource("/VERSION");
-      BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(resourceUrl).openStream()));
-      String version = reader.readLine();
-      reader.close();
-      return version;
-    } catch (Exception e) {
-      return "0.1.0";
-    }
-  }
+	public static String getTempDirectory() {
+		return System.getProperty("java.io.tmpdir");
+	}
 
-  public static Optional<File> showPngFileChooser(Stage parent) {
-    FileChooser fileChooser = new FileChooser();
-    FileChooser.ExtensionFilter pngFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
-    fileChooser.getExtensionFilters().add(pngFilter);
-    File selectFile = fileChooser.showOpenDialog(parent);
-    return Optional.ofNullable(selectFile);
-  }
+	public static String getPukaVersion() {
+		try {
+			var resourceUrl = PukaUtil.class.getResource("/VERSION");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(resourceUrl).openStream()));
+			String version = reader.readLine();
+			reader.close();
+			return version;
+		} catch (Exception e) {
+			return "0.1.0";
+		}
+	}
 
-  public static void toast(Stage stage, String text) {
-    Popup popup = new Popup();
-    Label message = new Label(text);
-    message.setStyle("-fx-text-fill: #2cfc03; -fx-font-weight: bold; -fx-font-size: 16px");
-    message.setBackground(new Background(new BackgroundFill(Color.rgb(0, 0, 0, 0.0), CornerRadii.EMPTY, Insets.EMPTY)));
+	public static Optional<File> showPngFileChooser(Stage parent) {
+		FileChooser fileChooser = new FileChooser();
+		FileChooser.ExtensionFilter pngFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
+		fileChooser.getExtensionFilters().add(pngFilter);
+		File selectFile = fileChooser.showOpenDialog(parent);
+		return Optional.ofNullable(selectFile);
+	}
 
-    StackPane pane = new StackPane(message);
-    pane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 10px; -fx-background-radius: 5px;");
-    popup.getContent().add(pane);
-    popup.show(stage);
-    PauseTransition delay = new PauseTransition(Duration.seconds(2));
-    delay.setOnFinished(e -> popup.hide());
-    delay.play();
-  }
+	public static void toast(Stage stage, String text) {
+		Popup popup = new Popup();
+		Label message = new Label(text);
+		message.setStyle("-fx-text-fill: #2cfc03; -fx-font-weight: bold; -fx-font-size: 16px");
+		message.setBackground(new Background(new BackgroundFill(Color.rgb(0, 0, 0, 0.0), CornerRadii.EMPTY, Insets.EMPTY)));
+
+		StackPane pane = new StackPane(message);
+		pane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 10px; -fx-background-radius: 5px;");
+		popup.getContent().add(pane);
+		popup.show(stage);
+		PauseTransition delay = new PauseTransition(Duration.seconds(2));
+		delay.setOnFinished(e -> popup.hide());
+		delay.play();
+	}
 
 }

@@ -19,6 +19,7 @@ import pe.puyu.pukafx.model.BifrostConfig;
 import pe.puyu.pukafx.services.bifrost.BifrostServiceLauncher;
 import pe.puyu.pukafx.services.trayicon.PrintServiceTrayIcon;
 import pe.puyu.pukafx.util.JsonUtil;
+import pe.puyu.pukafx.util.ProgramLock;
 import pe.puyu.pukafx.util.PukaUtil;
 import pe.puyu.pukafx.validations.BifrostValidator;
 
@@ -30,6 +31,7 @@ public class App extends Application {
   @Override
   public void init() {
     rootLogger.setLevel(Level.INFO);
+    ProgramLock.lock();
     var config = rebuildBifrostConfig();
 	  config.ifPresent(value -> bifrostConfig = value);
   }
@@ -55,6 +57,11 @@ public class App extends Application {
     }
   }
 
+  @Override
+  public void stop(){
+    ProgramLock.unLock();
+  }
+
   public static void main(String[] args) {
     launch(args);
   }
@@ -78,4 +85,5 @@ public class App extends Application {
       return Optional.empty();
     }
   }
+
 }
