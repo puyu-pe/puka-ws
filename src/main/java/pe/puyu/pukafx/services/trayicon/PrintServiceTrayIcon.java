@@ -109,11 +109,11 @@ public class PrintServiceTrayIcon {
     }
   }
 
-  private void onInfoMessageBifrost(String title, String message) {
+  private synchronized void onInfoMessageBifrost(String title, String message) {
     trayIcon.showInfoMessage(title, message);
   }
 
-  private void onErrorMessageBifrost(String title, String message) {
+  private synchronized void onErrorMessageBifrost(String title, String message) {
     trayIcon.showErrorMessage(title, message);
   }
 

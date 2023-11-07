@@ -11,7 +11,7 @@
       "additional": [
         "RUC 12345678910 JR. PUYU Nº 101",
         "ABANCAY - ABANCAY - AV. PUYU",
-        "TEL : 083323805  CEL. 983960230"
+        "TEL : 083323805  CEL. 999999999"
       ]
     },
     "document": {
@@ -21,8 +21,7 @@
     "customer": [
       "ADQUIRIENTE",
       "DNI: -",
-      "clientes varios",
-      ""
+      "clientes varios"
     ],
     "additional": [
       "FECHA EMISION : 16-08-2023 21:25:40",
@@ -36,7 +35,7 @@
         "totalPrice": 17
       },
       {
-        "quantity": "1",
+        "quantity": "19",
         "description": "YuRES",
         "totalPrice": 32
       }
@@ -52,7 +51,7 @@
       "MESA : 01"
     ],
     "finalMessage": [
-      "REPRESENTACIÓN IMPRESA DE DOC ELECTRÓNICO",
+      "PRUEBA DE IMPRESION DOC ELECTRÓNICO",
       "PARA CONSULTAR EL DOCUMENTO VISITA NEXUS:",
       "HTTPS://NEXUS.PUYU.PE/10412443361",
       "RESUMEN: XyRO1mV1SREVZSPV3T5n0riGMWw=",
