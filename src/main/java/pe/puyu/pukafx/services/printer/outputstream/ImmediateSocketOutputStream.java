@@ -9,11 +9,11 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.concurrent.CompletableFuture;
 
-public class ImmediateOutputStream extends OutputStream implements Cancelable {
+public class ImmediateSocketOutputStream extends OutputStream implements Cancelable {
 	private final Socket socket;
 	private final InetSocketAddress address;
 
-	public ImmediateOutputStream(String host, int port) {
+	public ImmediateSocketOutputStream(String host, int port) {
 		address = new InetSocketAddress(host, port);
 		socket = new Socket();
 	}

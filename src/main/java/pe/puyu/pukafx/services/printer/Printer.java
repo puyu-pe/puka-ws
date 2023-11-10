@@ -40,13 +40,13 @@ public class Printer {
   public static OutputStream getOutputStreamFor(String name_system, int port, String typeConnection) throws Exception {
     var type = Type.fromValue(typeConnection);
 	  return switch (type) {
-		  case SMBFILE -> new SambaOutputStream(name_system);
+		  case SMBFILE -> new ImmediateFileStream(name_system);
 		  case SERIAL -> new SerialStream(name_system);
 		  case WINDOWS_USB, LINUX_USB, SAMBA, CUPS -> {
 			  var printService = ServiceOutputStream.getPrintServiceByName(name_system);
 			  yield new ServiceOutputStream(printService);
 		  }
-		  case ETHERNET -> new ImmediateOutputStream(name_system, port);
+		  case ETHERNET -> new ImmediateSocketOutputStream(name_system, port);
 	  };
   }
 
