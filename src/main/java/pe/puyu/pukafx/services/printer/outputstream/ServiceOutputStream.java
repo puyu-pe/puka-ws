@@ -27,7 +27,7 @@ public class ServiceOutputStream extends PipedOutputStream implements Cancelable
 	public ServiceOutputStream(PrintService printService) throws IOException {
 
 		Thread.UncaughtExceptionHandler uncaughtException = (t, e) ->
-			logger.error("Excepcion no controlada en SocketOutputStream: {}", e.getMessage(), e);
+			logger.error("Excepcion no controlada en ServiceOutputStream: {}", e.getMessage(), e);
 
 		pipedInputStream = new PipedInputStream();
 		super.connect(pipedInputStream);

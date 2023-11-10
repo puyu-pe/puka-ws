@@ -36,7 +36,7 @@ public class SweetTicketPrinter {
 						throw new RuntimeException(e.getMessage());
 					}
 				})
-				.orTimeout(2000, TimeUnit.MILLISECONDS)
+				.orTimeout(5000, TimeUnit.MILLISECONDS)
 				.get();
 	}
 

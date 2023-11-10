@@ -1,10 +1,7 @@
 package pe.puyu.pukafx.services.printer;
 
 import pe.puyu.pukafx.services.printer.interfaces.Caughtable;
-import pe.puyu.pukafx.services.printer.outputstream.SambaOutputStream;
-import pe.puyu.pukafx.services.printer.outputstream.SerialStream;
-import pe.puyu.pukafx.services.printer.outputstream.ServiceOutputStream;
-import pe.puyu.pukafx.services.printer.outputstream.SocketOutputStream;
+import pe.puyu.pukafx.services.printer.outputstream.*;
 
 import java.io.OutputStream;
 import java.lang.Thread.UncaughtExceptionHandler;
@@ -49,7 +46,7 @@ public class Printer {
 			  var printService = ServiceOutputStream.getPrintServiceByName(name_system);
 			  yield new ServiceOutputStream(printService);
 		  }
-		  case ETHERNET -> new SocketOutputStream(name_system, port);
+		  case ETHERNET -> new ImmediateOutputStream(name_system, port);
 	  };
   }
 

@@ -38,7 +38,7 @@ public class BifrostService {
 		updateItemsQueueListeners = new LinkedList<>();
 		uriBifrost = uri;
 		int numberOfThreads = Runtime.getRuntime().availableProcessors() * 2;
-		listenerInfo.accept("Numero de hilos",""+numberOfThreads);
+		listenerInfo.accept("Numero de hilos", "" + numberOfThreads);
 		executor = Executors.newFixedThreadPool(numberOfThreads);
 		reloadSocket();
 	}
@@ -46,8 +46,8 @@ public class BifrostService {
 	public void reloadSocket() {
 		attemptsConnection = 0;
 		OkHttpClient okHttpClient = new OkHttpClient.Builder()
-		    .readTimeout(8, TimeUnit.HOURS)
-		    .build();
+			.readTimeout(8, TimeUnit.HOURS)
+			.build();
 		IO.Options options = new IO.Options();
 		options.callFactory = okHttpClient;
 		options.webSocketFactory = okHttpClient;
@@ -87,7 +87,7 @@ public class BifrostService {
 			} catch (JSONException e) {
 				logger.error("Excepción al obtener cola de impresión: {}", e.getMessage(), e);
 			}
-		},executor);
+		}, executor);
 	}
 
 	private void onEmitItem(Object... args) {
@@ -99,7 +99,7 @@ public class BifrostService {
 			} catch (JSONException e) {
 				logger.error("Excepción al lanzar el evento para emitir un item emit-item: {}", e.getMessage(), e);
 			}
-		},executor);
+		}, executor);
 	}
 
 	private void onConnected(Object... args) {
@@ -144,7 +144,7 @@ public class BifrostService {
 			} catch (JSONException e) {
 				logger.error("Ocurrio una excepción en emit printer:print-item: {}", e.getMessage(), e);
 			}
-		},executor);
+		}, executor);
 	}
 
 	public void requestToGetPrintingQueue() {
@@ -171,33 +171,31 @@ public class BifrostService {
 	}
 
 	private void printItems(Map<String, JSONObject> queue) {
-		CompletableFuture.runAsync(() -> {
-			logger.debug("Se recibe {} items de bifrost", queue.size());
-			for (Map.Entry<String, JSONObject> entry : queue.entrySet()) {
-				var id = entry.getKey();
-				var item = entry.getValue();
-				if (!item.has("tickets"))
-					continue;
-				var tickets = new JSONArray(item.getString("tickets"));
-				for (int i = 0; i < tickets.length(); ++i) {
-					try {
-						var ticket = tickets.getJSONObject(i);
-						logger.trace("Se imprimira el siguiente ticket con id {}: {}", id, ticket);
-						var sweetTicketPrinter = new SweetTicketPrinter(ticket);
-						sweetTicketPrinter.setOnUncaughtException(error -> {
-							logger.warn("UncaughtException al imprimir ticket con id: {}, error: {}", id, error);
-							listenerError.accept("Error interno, hilo de impresión: ", error);
-						});
-						sweetTicketPrinter.printTicket();
-						emitPrintItem(id);
-					} catch (Exception e) {
-						var message = String.format("Excepción al intentar imprimir ticket con id %s: %s", id, e.getMessage());
-						logger.error(message, e);
-						listenerError.accept("Fallo al imprimir un ticket", message);
-					}
+		logger.debug("Se recibe {} items de bifrost", queue.size());
+		for (Map.Entry<String, JSONObject> entry : queue.entrySet()) {
+			var id = entry.getKey();
+			var item = entry.getValue();
+			if (!item.has("tickets"))
+				continue;
+			var tickets = new JSONArray(item.getString("tickets"));
+			for (int i = 0; i < tickets.length(); ++i) {
+				try {
+					var ticket = tickets.getJSONObject(i);
+					logger.trace("Se imprimira el siguiente ticket con id {}: {}", id, ticket);
+					var sweetTicketPrinter = new SweetTicketPrinter(ticket);
+					sweetTicketPrinter.setOnUncaughtException(error -> {
+						logger.warn("UncaughtException al imprimir ticket con id: {}, error: {}", id, error);
+						listenerError.accept("Error interno, hilo de impresión: ", error);
+					});
+					sweetTicketPrinter.printTicket();
+					emitPrintItem(id);
+				} catch (Exception e) {
+					var message = String.format("Excepción al intentar imprimir ticket con id %s: %s", id, e.getMessage());
+					logger.error(message, e);
+					listenerError.accept("Fallo al imprimir un ticket", message);
 				}
 			}
-		},executor);
+		}
 	}
 
 }

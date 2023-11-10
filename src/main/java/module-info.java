@@ -24,6 +24,7 @@ module pe.puyu.pukafx {
 	requires escpos.coffee;
 	requires com.fazecast.jSerialComm;
 	requires pe.puyu.jticketdesing;
+	requires org.jetbrains.annotations;
 
 	opens pe.puyu.pukafx.views to javafx.fxml, javafx.graphics;
 	opens pe.puyu.pukafx.app to javafx.fxml, javafx.graphics;
