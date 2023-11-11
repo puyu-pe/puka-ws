@@ -4,7 +4,6 @@ import ch.qos.logback.classic.Logger;
 import com.github.anastaciocintra.escpos.EscPos;
 import com.github.anastaciocintra.escpos.EscPos.CharacterCodeTable;
 import com.github.anastaciocintra.escpos.EscPos.CutMode;
-import com.github.anastaciocintra.escpos.EscPosConst.Justification;
 import com.github.anastaciocintra.escpos.Style.FontSize;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -26,6 +25,7 @@ import pe.puyu.pukafx.services.printingtest.PrintTestService;
 import pe.puyu.pukafx.util.JsonUtil;
 import pe.puyu.pukafx.util.PukaUtil;
 
+import java.io.ByteArrayOutputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -86,7 +86,8 @@ public class TestPanelController implements Initializable {
 			var type = printerConnection.getType();
 			try (var outputStream = Printer.getOutputStreamFor(name_system, port, type)) {
 				Printer.setOnUncaughtExceptionFor(outputStream, (t, e) -> showMessageAreaError(e.getMessage(), "error"));
-				var escpos = new EscPos(outputStream);
+				var buffer = new ByteArrayOutputStream();
+				var escpos = new EscPos(buffer);
 				var width = ticketInfo.getWidth();
 				escpos.setCharacterCodeTable(CharacterCodeTable.WPC1252);
 				var escposWrapper = new EscPosWrapper(escpos, StyleWrapper.textBold());
@@ -103,6 +104,7 @@ public class TestPanelController implements Initializable {
 				escposWrapper.toCenter("Gracias, que tenga un buen dia.", width);
 				escpos.feed(4);
 				escpos.cut(CutMode.PART);
+				outputStream.write(buffer.toByteArray());
 				showMessageAreaError("La prueba no lanzo ninguna excepcion.", "info");
 			} catch (Exception e) {
 				showMessageAreaError(String.format("Fallo la prueba: %s", e.getMessage()), "error");

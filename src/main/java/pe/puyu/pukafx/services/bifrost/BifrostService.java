@@ -31,6 +31,9 @@ public class BifrostService {
 
 	private final List<Consumer<Integer>> updateItemsQueueListeners;
 	private final Executor executor;
+	private final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+			.readTimeout(8, TimeUnit.HOURS)
+			.build();
 	private BiConsumer<String, String> listenerInfo = (title, message) -> logger.info(String.format("%s: %s", title, message));
 	private BiConsumer<String, String> listenerError = (title, message) -> logger.error(String.format("%s: %s", title, message));
 
@@ -38,17 +41,17 @@ public class BifrostService {
 		updateItemsQueueListeners = new LinkedList<>();
 		uriBifrost = uri;
 		int numberOfThreads = Runtime.getRuntime().availableProcessors() * 2;
-		listenerInfo.accept("Numero de hilos", "" + numberOfThreads);
+		logger.info("Numero de hilos reservados: {}",numberOfThreads);
 		executor = Executors.newFixedThreadPool(numberOfThreads);
 		reloadSocket();
 	}
 
 	public void reloadSocket() {
 		attemptsConnection = 0;
-		OkHttpClient okHttpClient = new OkHttpClient.Builder()
-			.readTimeout(8, TimeUnit.HOURS)
+		okHttpClient.connectionPool().evictAll();
+		IO.Options options = IO.Options.builder()
+			.setForceNew(true)
 			.build();
-		IO.Options options = new IO.Options();
 		options.callFactory = okHttpClient;
 		options.webSocketFactory = okHttpClient;
 		if (socket != null) {
@@ -77,29 +80,29 @@ public class BifrostService {
 	}
 
 	private void onSendPrintingQueue(Object... args) {
-		CompletableFuture.runAsync(() -> {
 			try {
-				var response = new BifrostResponse((JSONObject) args[0]);
-				if (response.getStatus().equalsIgnoreCase("success")) {
-					logger.info("Llego cola de impresión de bifrost con el siguiente mensaje: {}", response.getMessage());
+			var response = new BifrostResponse((JSONObject) args[0]);
+			if (response.getStatus().equalsIgnoreCase("success")) {
+				logger.info("Llego cola de impresión de bifrost con el siguiente mensaje: {}", response.getMessage());
+				CompletableFuture.runAsync(() -> {
 					printItems(response.getData());
-				}
-			} catch (JSONException e) {
-				logger.error("Excepción al obtener cola de impresión: {}", e.getMessage(), e);
+				}, executor);
 			}
-		}, executor);
+		} catch (JSONException e) {
+			logger.error("Excepción al obtener cola de impresión: {}", e.getMessage(), e);
+		}
 	}
 
 	private void onEmitItem(Object... args) {
-		CompletableFuture.runAsync(() -> {
-			try {
-				var response = new BifrostResponse((JSONObject) args[0]);
-				logger.debug("Llego un item de bifrost para imprimir con el siguiente mensaje: {}", response.getMessage());
+		try {
+			var response = new BifrostResponse((JSONObject) args[0]);
+			logger.debug("Llego un item de bifrost para imprimir con el siguiente mensaje: {}", response.getMessage());
+			CompletableFuture.runAsync(() -> {
 				printItems(response.getData());
-			} catch (JSONException e) {
-				logger.error("Excepción al lanzar el evento para emitir un item emit-item: {}", e.getMessage(), e);
-			}
-		}, executor);
+			}, executor);
+		} catch (JSONException e) {
+			logger.error("Excepción al lanzar el evento para emitir un item emit-item: {}", e.getMessage(), e);
+		}
 	}
 
 	private void onConnected(Object... args) {
@@ -136,15 +139,15 @@ public class BifrostService {
 	}
 
 	private void emitPrintItem(String itemId) {
-		CompletableFuture.runAsync(() -> {
 			try {
 				JSONObject obj = new JSONObject();
 				obj.put("key", itemId);
-				socket.emit("printer:print-item", obj);
+				CompletableFuture.runAsync(() -> {
+					socket.emit("printer:print-item", obj);
+				}, executor);
 			} catch (JSONException e) {
 				logger.error("Ocurrio una excepción en emit printer:print-item: {}", e.getMessage(), e);
 			}
-		}, executor);
 	}
 
 	public void requestToGetPrintingQueue() {

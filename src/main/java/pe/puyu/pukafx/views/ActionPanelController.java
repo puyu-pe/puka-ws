@@ -78,9 +78,11 @@ public class ActionPanelController implements Initializable {
 
   private void onUpdateNumberItemsQueue(int numberItemsQueue) {
     Platform.runLater(() -> {
-      lblNumberItemsQueue.setText("" + numberItemsQueue);
-      btnReprint.setDisable(numberItemsQueue == 0);
-      btnRelease.setDisable(numberItemsQueue == 0);
+			synchronized(this){
+      	lblNumberItemsQueue.setText("" + numberItemsQueue);
+      	btnReprint.setDisable(numberItemsQueue == 0);
+      	btnRelease.setDisable(numberItemsQueue == 0);
+			}
     });
   }
 
